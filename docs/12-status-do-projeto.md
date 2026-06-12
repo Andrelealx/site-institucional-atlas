@@ -26,8 +26,8 @@ placeholders — nenhuma pendência trava a publicação técnica.
 
 ## Pendências com o cliente
 
-- [ ] WhatsApp oficial da Atlas → `src/config/site.ts` (`WHATSAPP_NUMBER`)
-- [ ] E-mail oficial da Atlas → `src/config/site.ts` (`EMAIL`)
+- [x] ~~WhatsApp oficial~~ → 5521988798777 em `src/config/site.ts`
+- [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
 - [ ] @ do Instagram (e outras redes) → `src/config/site.ts` (`INSTAGRAM`)
 - [ ] Endpoint do formulário (Formspree / n8n / e-mail) → `src/config/site.ts` (`FORM_ENDPOINT`)
 - [ ] Projetos reais para o portfólio (nome, tipo, link, imagem) → `src/data/projects.ts`

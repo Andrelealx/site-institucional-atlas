@@ -9,15 +9,14 @@
 
 /**
  * Número de WhatsApp no formato internacional, só dígitos: 55 + DDD + número.
- * PENDÊNCIA: confirmar número oficial da Atlas. Placeholder abaixo.
  */
-export const WHATSAPP_NUMBER = '55XXXXXXXXXXX';
+export const WHATSAPP_NUMBER = '5521988798777';
 
 /** Mensagem pré-preenchida ao abrir o WhatsApp. */
 export const WHATSAPP_MESSAGE =
   'Olá! Vim pelo site da Atlas e gostaria de saber mais.';
 
-/** PENDÊNCIA: confirmar e-mail oficial. Placeholder abaixo. */
+/** E-mail oficial de contato. */
 export const EMAIL = 'contato@atlastecnologias.com.br';
 
 /** PENDÊNCIA: confirmar @ do Instagram. Vazio = não exibe link. */
