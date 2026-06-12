@@ -1,5 +1,21 @@
 # Registro de Alterações
 
+## 2026-06-12 (planos & preços + portfólio real)
+
+### Adicionado
+
+- **Seção Planos & Preços** (`src/components/Pricing.astro` + `src/data/plans.ts`): 4 planos oficiais — Presença (R$ 497 + R$ 79/mês), Autoridade (R$ 997 + R$ 149/mês · destaque "Mais popular"), Domínio (R$ 1.997 + R$ 249/mês) e Expert (R$ 1.197/ano, sem mensalidade · profissional liberal, card largo com chips de profissões). CTAs abrem WhatsApp com mensagem por plano. Âncora `#planos` na navegação (Header, MobileMenu, Footer).
+- **Portfólio real**: 2 cases com capturas dos sites no ar — CT Quebrando Limites (inscrição + pagamento + QR Code) e Suporte Única (sistema de chamados). Imagens otimizadas em `public/images/portfolio-ct.jpg` e `portfolio-unica.jpg`. Removido aviso de "projetos ilustrativos".
+
+### Observações
+
+- O material original dos planos usa cyan no Expert; mantido em **lime** no site para respeitar a regra de marca (sem azul/cyan).
+
+### Arquivos criados/modificados
+
+- Criados: `src/components/Pricing.astro`, `src/data/plans.ts`, `public/images/portfolio-ct.jpg`, `public/images/portfolio-unica.jpg`
+- Modificados: `src/pages/index.astro`, `src/components/Header.astro`, `src/components/MobileMenu.tsx`, `src/components/Footer.astro`, `src/components/Portfolio.astro`, `src/data/projects.ts`
+
 ## 2026-06-12 (dados legais da empresa)
 
 ### Adicionado

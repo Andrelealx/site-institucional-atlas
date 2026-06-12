@@ -1,0 +1,197 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../config/site';
+import {
+  businessPlans,
+  expertPlan,
+  expertProfessions,
+} from '../data/plans';
+---
+
+<section id="planos" class="relative py-24">
+  <div class="container-site">
+    <div class="max-w-2xl" data-reveal>
+      <span class="eyebrow">Planos &amp; preços</span>
+      <h2 class="section-title mt-3">
+        Soluções digitais para cada etapa do seu negócio
+      </h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Sites profissionais com hospedagem, suporte e resultados reais — para
+        empresas locais e profissionais liberais de todos os portes.
+      </p>
+    </div>
+
+    <!-- Planos para empresas -->
+    <div class="mt-14 grid items-start gap-6 lg:grid-cols-3">
+      {
+        businessPlans.map((plan, i) => (
+          <article
+            class:list={[
+              'relative flex flex-col rounded-2xl border p-7 transition',
+              plan.popular
+                ? 'border-brand bg-bg-surface shadow-glow lg:-mt-4 lg:mb-4'
+                : 'border-border-soft bg-bg-surface hover:border-brand/40',
+            ]}
+            data-reveal
+            data-reveal-delay={i % 3}
+          >
+            {plan.badge && (
+              <span class="absolute -top-3 left-7 inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1 text-xs font-bold uppercase tracking-wide text-bg-base">
+                ★ {plan.badge}
+              </span>
+            )}
+
+            <header>
+              <h3 class="font-display text-2xl font-bold text-text-primary">
+                {plan.name}
+              </h3>
+              <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
+                {plan.audience}
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-text-secondary">
+                {plan.description}
+              </p>
+            </header>
+
+            <div class="mt-6 rounded-xl border border-border-soft bg-bg-base/40 p-4">
+              <p class="text-[11px] font-semibold uppercase tracking-wide text-text-secondary">
+                {plan.priceLabel}
+              </p>
+              <p class="mt-1 flex items-baseline gap-2">
+                <span
+                  class:list={[
+                    'font-display text-4xl font-bold',
+                    plan.popular ? 'text-brand' : 'text-text-primary',
+                  ]}
+                >
+                  {plan.price}
+                </span>
+                {plan.recurrence && (
+                  <span class="text-sm text-text-secondary">
+                    {plan.recurrence}
+                  </span>
+                )}
+              </p>
+              {plan.note && (
+                <p class="mt-1 text-xs text-brand">↳ {plan.note}</p>
+              )}
+            </div>
+
+            <ul class="mt-6 flex flex-1 flex-col gap-3">
+              {plan.features.map((f) => (
+                <li
+                  class:list={[
+                    'flex items-start gap-2.5 text-sm',
+                    f.included ? 'text-text-primary' : 'text-text-secondary/50',
+                  ]}
+                >
+                  <span
+                    class:list={[
+                      'mt-0.5 shrink-0',
+                      f.included ? 'text-brand' : 'text-text-secondary/40',
+                    ]}
+                  >
+                    <Icon name={f.included ? 'check-circle' : 'x'} size={16} />
+                  </span>
+                  <span class={f.included ? '' : 'line-through'}>{f.label}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={waLink(plan.waMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={[
+                'mt-7 w-full',
+                plan.popular ? 'btn-primary' : 'btn-secondary',
+              ]}
+            >
+              {plan.cta}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Plano Expert (profissional liberal) -->
+    <article
+      class="mt-8 overflow-hidden rounded-2xl border border-brand/50 bg-bg-surface"
+      data-reveal
+    >
+      <div class="grid gap-8 p-8 md:grid-cols-2 md:p-10">
+        <div>
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand"
+          >
+            <Icon name="check-circle" size={14} />
+            {expertPlan.badge}
+          </span>
+          <h3 class="mt-4 font-display text-4xl font-bold text-text-primary">
+            {expertPlan.name}
+          </h3>
+          <p class="mt-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
+            {expertPlan.audience}
+          </p>
+          <p class="mt-4 max-w-md text-sm leading-relaxed text-text-secondary">
+            {expertPlan.description}
+          </p>
+
+          <div class="mt-5 flex flex-wrap gap-2">
+            {
+              expertProfessions.map((prof) => (
+                <span class="rounded-full border border-border-soft px-3 py-1 text-xs text-text-secondary">
+                  {prof}
+                </span>
+              ))
+            }
+          </div>
+
+          <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+            {
+              expertPlan.features.map((f) => (
+                <li class="flex items-start gap-2.5 text-sm text-text-primary">
+                  <span class="mt-0.5 shrink-0 text-brand">
+                    <Icon name="check-circle" size={16} />
+                  </span>
+                  {f.label}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="flex flex-col justify-center gap-4">
+          <div class="rounded-xl border border-brand/30 bg-bg-base/40 p-5">
+            <p class="text-[11px] font-semibold uppercase tracking-wide text-text-secondary">
+              {expertPlan.priceLabel}
+            </p>
+            <p class="mt-1 font-display text-4xl font-bold text-brand">
+              {expertPlan.price}
+            </p>
+            <p class="mt-1 text-sm text-text-secondary">
+              {expertPlan.recurrence} · sem juros até 6x
+            </p>
+            {
+              expertPlan.note && (
+                <p class="mt-2 text-xs text-text-secondary">{expertPlan.note}</p>
+              )
+            }
+          </div>
+
+          <a
+            href={waLink(expertPlan.waMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary w-full"
+          >
+            {expertPlan.cta}
+          </a>
+          <p class="text-center text-xs text-text-secondary">
+            Proposta personalizada via WhatsApp em até 24h.
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

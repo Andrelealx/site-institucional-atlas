@@ -30,8 +30,9 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
 - [ ] @ do Instagram (e outras redes) → `src/config/site.ts` (`INSTAGRAM`)
 - [ ] Endpoint do formulário (Formspree / n8n / e-mail) → `src/config/site.ts` (`FORM_ENDPOINT`)
-- [ ] Projetos reais para o portfólio (nome, tipo, link, imagem) → `src/data/projects.ts`
-- [ ] Imagens finais (portfólio + `og-atlas.png`) → `public/images/`
+- [x] ~~Projetos reais do portfólio~~ → CT Quebrando Limites + Suporte Única, com prints reais
+- [x] ~~Planos & preços~~ → seção `#planos` implementada (4 planos oficiais)
+- [ ] Imagem social `og-atlas.png` final → `public/images/` (há placeholder)
 - [x] ~~Logo~~ — RECEBIDO (Atlas Tecnologias, em /midias/logo)
 - [x] ~~CNPJ~~ — DEFINIDO. Exibido no rodapé + JSON-LD. CNPJ 67.276.955/0001-47, razão social "Atlas Consultoria e Tecnologia da Informação", marca "Atlas Tecnologias"
 - [ ] Decidir se exibe endereço/mapa
