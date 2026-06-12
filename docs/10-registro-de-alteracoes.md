@@ -1,5 +1,21 @@
 # Registro de Alterações
 
+## 2026-06-12 (revisão mobile + conversão)
+
+### Alterado
+
+- **Formulário de contato** agora monta a mensagem com os campos e abre o WhatsApp (sem backend) — antes fingia sucesso sem destino, perdendo lead. Removido `FORM_ENDPOINT` do config (órfão). Tipos de negócio realinhados (empresa local, profissional liberal, loja/comércio, evento).
+- **Menu mobile**: overlay com fundo sólido (`bg-bg-base`) — corrige o vazamento do conteúdo atrás.
+- **SocialProof** ligado no `index.astro`; renderiza só quando o array de depoimentos tiver conteúdo real (auto-oculto enquanto vazio).
+
+### Revisado
+
+- Responsividade mobile (390px) testada via Playwright: navbar/hamburguer, menu fullscreen, planos e portfólio empilhando em 1 coluna — OK.
+
+### Arquivos modificados
+
+- `src/components/ContactForm.tsx`, `src/components/MobileMenu.tsx`, `src/config/site.ts`, `src/pages/index.astro`
+
 ## 2026-06-12 (planos & preços + portfólio real)
 
 ### Adicionado

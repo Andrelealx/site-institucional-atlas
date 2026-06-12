@@ -1,22 +1,25 @@
 import { useState, type FormEvent } from 'react';
-import { FORM_ENDPOINT } from '../config/site';
+import { waLink } from '../config/site';
 
-type Status = 'idle' | 'sending' | 'success' | 'error';
+type Status = 'idle' | 'success';
 
 const businessTypes = [
-  'Escola ou curso',
-  'Loja local',
+  'Empresa local',
+  'Profissional liberal / autônomo',
+  'Loja ou comércio',
   'Evento',
-  'Prestador de serviço',
   'Outro',
 ];
 
-/** Formulário de contato — ilha React. Envia para FORM_ENDPOINT ou loga no console. */
+/**
+ * Formulário de contato — ilha React.
+ * Monta uma mensagem com os campos e abre o WhatsApp (sem backend).
+ */
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError('');
 
@@ -34,39 +37,27 @@ export default function ContactForm() {
       return;
     }
 
-    setStatus('sending');
+    // Monta a mensagem e abre o WhatsApp — o lead cai direto na conversa.
+    const texto =
+      `Olá! Vim pelo site da Atlas.\n\n` +
+      `*Nome:* ${data.nome}\n` +
+      `*Contato:* ${data.contato}\n` +
+      `*Tipo de negócio:* ${data.tipo}\n` +
+      `*Mensagem:* ${data.mensagem}`;
 
-    // Sem endpoint definido (PENDÊNCIA): registra no console e simula sucesso.
-    // Para plugar Formspree/n8n, defina FORM_ENDPOINT em src/config/site.ts.
-    if (!FORM_ENDPOINT) {
-      console.info('[Atlas] FORM_ENDPOINT não configurado. Dados do formulário:', data);
-      setStatus('success');
-      form.reset();
-      return;
-    }
-
-    try {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Falha no envio');
-      setStatus('success');
-      form.reset();
-    } catch {
-      setStatus('error');
-      setError('Não foi possível enviar agora. Tente pelo WhatsApp.');
-    }
+    window.open(waLink(texto), '_blank', 'noopener,noreferrer');
+    setStatus('success');
+    form.reset();
   }
 
   if (status === 'success') {
     return (
       <div className="card flex flex-col items-start gap-3" role="status">
-        <span className="eyebrow">Recebido</span>
-        <h3 className="font-display text-xl font-bold">Mensagem enviada!</h3>
+        <span className="eyebrow">Tudo certo</span>
+        <h3 className="font-display text-xl font-bold">Abrimos seu WhatsApp!</h3>
         <p className="text-text-secondary">
-          Obrigado pelo contato. Retornamos o mais rápido possível.
+          É só tocar em enviar na conversa que abriu. Se não abriu, fale com a
+          gente direto pelo botão do WhatsApp.
         </p>
         <button
           type="button"
@@ -148,14 +139,14 @@ export default function ContactForm() {
         </p>
       )}
 
-      <button type="submit" className="btn-primary" disabled={status === 'sending'}>
-        {status === 'sending' ? 'Enviando…' : 'Enviar mensagem'}
+      <button type="submit" className="btn-primary">
+        Enviar pelo WhatsApp
       </button>
 
       {/* Aviso LGPD — docs/08-lgpd-e-seguranca.md */}
       <p className="text-xs leading-relaxed text-text-secondary">
-        Ao enviar, você concorda com o uso dos seus dados exclusivamente para
-        retorno do contato.
+        Ao enviar, seus dados são usados apenas para retorno do contato e a
+        mensagem segue pelo seu WhatsApp.
       </p>
     </form>
   );

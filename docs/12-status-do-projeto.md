@@ -29,7 +29,7 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [x] ~~WhatsApp oficial~~ → 5521988798777 em `src/config/site.ts`
 - [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
 - [ ] @ do Instagram (e outras redes) → `src/config/site.ts` (`INSTAGRAM`)
-- [ ] Endpoint do formulário (Formspree / n8n / e-mail) → `src/config/site.ts` (`FORM_ENDPOINT`)
+- [x] ~~Endpoint do formulário~~ → resolvido: form abre o WhatsApp com os dados (sem backend)
 - [x] ~~Projetos reais do portfólio~~ → CT Quebrando Limites + Suporte Única, com prints reais
 - [x] ~~Planos & preços~~ → seção `#planos` implementada (4 planos oficiais)
 - [ ] Imagem social `og-atlas.png` final → `public/images/` (há placeholder)
@@ -39,7 +39,7 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [ ] Texto definitivo da política de privacidade (há baseline LGPD no ar)
 - [ ] Prazo de entrega
 - [ ] Analytics/Pixel (opcional)
-- [ ] Depoimentos reais (nome, negócio, texto) para ativar `SocialProof`
+- [ ] Depoimentos reais (nome, negócio, texto) → preencher array em `src/components/SocialProof.astro` (seção já ligada, oculta enquanto vazia)
 
 ## Observações
 

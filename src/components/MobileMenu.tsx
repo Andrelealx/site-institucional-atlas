@@ -45,7 +45,7 @@ export default function MobileMenu() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-bg-base/95 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 bg-bg-base">
           <div className="container-site flex h-16 items-center justify-end">
             <button
               type="button"

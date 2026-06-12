@@ -22,14 +22,8 @@ export const EMAIL = 'contato@atlastecnologias.com.br';
 /** PENDÊNCIA: confirmar @ do Instagram. Vazio = não exibe link. */
 export const INSTAGRAM = ''; // ex.: 'atlastecnologias'
 
-/**
- * Endpoint do formulário de contato (ex.: Formspree, n8n, webhook).
- * Vazio = o formulário apenas registra os dados no console (modo de teste),
- * permitindo subir o site antes de o endpoint estar definido.
- * Para plugar Formspree: 'https://formspree.io/f/SEU_ID'.
- * PENDÊNCIA: definir provedor.
- */
-export const FORM_ENDPOINT = '';
+// O formulário de contato monta uma mensagem e abre o WhatsApp (sem backend).
+// Ver src/components/ContactForm.tsx.
 
 // ── Dados da empresa (SEO / JSON-LD) ─────────────────────────────────────────
 
