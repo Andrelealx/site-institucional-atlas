@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Compensa o header fixo ao navegar por âncoras. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-bg-base text-text-primary font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  /* Realce de seleção com a cor de marca. */
+  ::selection {
+    background-color: #c8f135;
+    color: #0a0b0d;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-bg-base;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  /* Botão primário: fundo lime + texto escuro (regra de contraste da marca). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-bg-base shadow-glow-sm transition hover:brightness-95 hover:shadow-glow focus-visible:ring-offset-bg-base;
+  }
+
+  /* Botão secundário: contorno suave sobre fundo escuro. */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-border-soft bg-bg-surface/40 px-6 py-3 text-sm font-semibold text-text-primary transition hover:border-brand/60 hover:text-brand;
+  }
+
+  .card {
+    @apply rounded-xl border border-border-soft bg-bg-surface p-6 transition hover:border-brand/40;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold tracking-tight text-text-primary sm:text-4xl;
+  }
+}
+
+@layer utilities {
+  /* Scroll reveal — estado inicial; .is-visible (via JS) revela. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Atrasos escalonados para grids. */
+  [data-reveal-delay='1'] {
+    transition-delay: 0.08s;
+  }
+  [data-reveal-delay='2'] {
+    transition-delay: 0.16s;
+  }
+  [data-reveal-delay='3'] {
+    transition-delay: 0.24s;
+  }
+}
+
+/* Respeita usuários que preferem menos movimento. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

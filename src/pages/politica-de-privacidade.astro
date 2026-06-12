@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { EMAIL } from '../config/site';
+---
+
+<Layout
+  title="Política de Privacidade — Atlas Tecnologias"
+  description="Como a Atlas Tecnologias trata os dados enviados pelo formulário de contato."
+  path="/politica-de-privacidade"
+>
+  <Header />
+  <main id="main-content" class="pt-24">
+    <article class="container-site max-w-3xl py-16">
+      <h1 class="section-title">Política de Privacidade</h1>
+      <p class="mt-3 text-sm text-text-secondary">
+        Última atualização: junho de 2026.
+      </p>
+
+      <!--
+        PENDÊNCIA (docs/12): texto definitivo da política de privacidade.
+        Abaixo está um baseline LGPD para o formulário de contato — revisar
+        com André antes de publicar.
+      -->
+
+      <div class="mt-10 flex flex-col gap-8 text-text-secondary">
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Dados que coletamos
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Coletamos apenas os dados que você informa no formulário de contato:
+            nome, e-mail ou telefone, tipo de negócio e a mensagem enviada.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Como usamos
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Os dados são usados exclusivamente para responder ao seu contato e
+            apresentar uma proposta de serviço. Não vendemos nem compartilhamos
+            seus dados com terceiros para fins de marketing.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Seus direitos (LGPD)
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Você pode solicitar acesso, correção ou exclusão dos seus dados a
+            qualquer momento. Basta entrar em contato pelo e-mail
+            <a href={`mailto:${EMAIL}`} class="text-brand hover:underline">{EMAIL}</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Segurança
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            O site usa HTTPS e não armazena seus dados em banco próprio. As
+            mensagens são encaminhadas diretamente ao canal de atendimento da
+            Atlas.
+          </p>
+        </section>
+      </div>
+
+      <a href="/" class="btn-secondary mt-12">← Voltar ao início</a>
+    </article>
+  </main>
+  <Footer />
+</Layout>

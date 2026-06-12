@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { services } from '../data/services';
+---
+
+<section id="servicos" class="relative py-24">
+  <div class="container-site">
+    <div class="max-w-2xl" data-reveal>
+      <span class="eyebrow">O que fazemos</span>
+      <h2 class="section-title mt-3">
+        Tudo que seu negócio precisa para rodar online
+      </h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Do site ao sistema dos bastidores e às automações que reduzem trabalho
+        manual.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        services.map((service, i) => (
+          <article
+            class="card group flex flex-col gap-4"
+            data-reveal
+            data-reveal-delay={i % 3}
+          >
+            <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand/10 text-brand transition group-hover:bg-brand/20">
+              <Icon name={service.icon} size={24} />
+            </span>
+            <h3 class="font-display text-lg font-bold text-text-primary">
+              {service.title}
+            </h3>
+            <p class="text-sm leading-relaxed text-text-secondary">
+              {service.description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

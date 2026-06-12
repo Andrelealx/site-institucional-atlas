@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import UseCases from '../components/UseCases.astro';
+import Portfolio from '../components/Portfolio.astro';
+import Differentials from '../components/Differentials.astro';
+// PENDÊNCIA: ativar quando houver depoimentos reais (ver src/components/SocialProof.astro)
+// import SocialProof from '../components/SocialProof.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+---
+
+<Layout>
+  <Header />
+  <main id="main-content">
+    <Hero />
+    <Services />
+    <UseCases />
+    <Portfolio />
+    <Differentials />
+    {/* <SocialProof /> — ativar com depoimentos reais */}
+    <FinalCTA />
+    <Contact />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

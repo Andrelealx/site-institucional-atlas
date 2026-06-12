@@ -1,0 +1,56 @@
+---
+import Logo from './Logo.astro';
+import MobileMenu from './MobileMenu.tsx';
+import { waLink } from '../config/site';
+
+const navLinks = [
+  { label: 'Serviços', href: '#servicos' },
+  { label: 'Portfólio', href: '#portfolio' },
+  { label: 'Contato', href: '#contato' },
+];
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-40 border-b border-transparent transition-colors duration-300"
+>
+  <div class="container-site flex h-16 items-center justify-between">
+    <a href="#inicio" aria-label="Atlas Tecnologias — início">
+      <Logo />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            data-nav
+            class="text-sm font-medium text-text-secondary transition hover:text-brand"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a href={waLink()} target="_blank" rel="noopener noreferrer" class="btn-primary">
+        Falar no WhatsApp
+      </a>
+    </nav>
+
+    <MobileMenu client:load />
+  </div>
+</header>
+
+<script>
+  // Blur + fundo no header ao rolar.
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    if (!header) return;
+    if (window.scrollY > 20) {
+      header.classList.add('bg-bg-base/80', 'backdrop-blur-md', 'border-border-soft');
+    } else {
+      header.classList.remove('bg-bg-base/80', 'backdrop-blur-md', 'border-border-soft');
+    }
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

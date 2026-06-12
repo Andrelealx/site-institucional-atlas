@@ -1,0 +1,40 @@
+---
+/**
+ * Imagem com fallback visual.
+ * Se o arquivo não carregar (placeholder ainda não enviado por André),
+ * mostra um bloco com cor de superfície + nome do arquivo, sem quebrar o layout.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  ratio?: string; // ex.: 'aspect-video', 'aspect-square'
+}
+const { src, alt, class: className = '', ratio = 'aspect-video' } = Astro.props;
+const fileName = src.split('/').pop() ?? src;
+---
+
+<div
+  class={`group/img relative overflow-hidden rounded-xl border border-border-soft bg-bg-surface-2 ${ratio} ${className}`}
+>
+  <!-- Placeholder de fundo (visível enquanto/se a imagem não carrega) -->
+  <div
+    class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[radial-gradient(circle_at_30%_20%,rgba(200,241,53,0.06),transparent_60%)] p-4 text-center"
+  >
+    <svg viewBox="0 0 100 100" class="h-8 w-8 opacity-30">
+      <path d="M50 20 L78 46 L68 46 L50 30 L32 46 L22 46 Z" fill="#C8F135" />
+      <path d="M50 42 L78 68 L68 68 L50 52 L32 68 L22 68 Z" fill="#C8F135" />
+    </svg>
+    <span class="text-xs text-text-secondary">{fileName}</span>
+  </div>
+
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    class="relative z-10 h-full w-full object-cover opacity-0 transition-opacity duration-500 [&.is-loaded]:opacity-100"
+    onload="this.classList.add('is-loaded')"
+    onerror="this.style.display='none'"
+  />
+</div>

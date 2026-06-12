@@ -1,0 +1,85 @@
+---
+import Icon from './Icon.astro';
+import ContactForm from './ContactForm.tsx';
+import { waLink, mailLink, instagramLink, EMAIL } from '../config/site';
+
+const instagram = instagramLink();
+---
+
+<section id="contato" class="relative py-24">
+  <div class="container-site grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-5" data-reveal>
+      <span class="eyebrow">Contato</span>
+      <h2 class="section-title mt-3">Vamos conversar sobre o seu negócio</h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Prefere falar direto? Chama no WhatsApp. Ou mande sua mensagem pelo
+        formulário que retornamos.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-4">
+        <a
+          href={waLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-4 rounded-xl border border-border-soft bg-bg-surface p-4 transition hover:border-brand/60"
+        >
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <Icon name="message-circle" size={22} />
+          </span>
+          <span>
+            <span class="block text-sm font-semibold text-text-primary">WhatsApp</span>
+            <span class="block text-sm text-text-secondary">Resposta rápida, direto com a Atlas</span>
+          </span>
+        </a>
+
+        <a
+          href={mailLink()}
+          class="flex items-center gap-4 rounded-xl border border-border-soft bg-bg-surface p-4 transition hover:border-brand/60"
+        >
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <Icon name="mail" size={22} />
+          </span>
+          <span>
+            <span class="block text-sm font-semibold text-text-primary">E-mail</span>
+            <span class="block text-sm text-text-secondary">{EMAIL}</span>
+          </span>
+        </a>
+
+        {
+          instagram && (
+            <a
+              href={instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-4 rounded-xl border border-border-soft bg-bg-surface p-4 transition hover:border-brand/60"
+            >
+              <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                <Icon name="instagram" size={22} />
+              </span>
+              <span>
+                <span class="block text-sm font-semibold text-text-primary">Instagram</span>
+                <span class="block text-sm text-text-secondary">Acompanhe a Atlas</span>
+              </span>
+            </a>
+          )
+        }
+
+        <div
+          class="flex items-center gap-4 rounded-xl border border-border-soft bg-bg-surface p-4"
+        >
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+            <Icon name="map-pin" size={22} />
+          </span>
+          <span>
+            <span class="block text-sm font-semibold text-text-primary">Atendimento</span>
+            <span class="block text-sm text-text-secondary">Teresópolis / Região Serrana - RJ</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7" data-reveal data-reveal-delay="1">
+      <ContactForm client:visible />
+    </div>
+  </div>
+</section>

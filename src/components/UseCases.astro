@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { useCases } from '../data/services';
+---
+
+<section id="casos" class="relative border-y border-border-soft bg-bg-surface/30 py-24">
+  <div class="container-site">
+    <div class="max-w-2xl" data-reveal>
+      <span class="eyebrow">Para o seu tipo de negócio</span>
+      <h2 class="section-title mt-3">Feito para quem atende de verdade</h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Cada negócio tem um gargalo. A gente resolve o seu.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        useCases.map((useCase, i) => (
+          <article
+            class="flex items-start gap-4 rounded-xl border border-border-soft bg-bg-base/40 p-6"
+            data-reveal
+            data-reveal-delay={i % 3}
+          >
+            <span class="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
+              <Icon name={useCase.icon} size={20} />
+            </span>
+            <div>
+              <h3 class="font-display text-base font-bold text-text-primary">
+                {useCase.title}
+              </h3>
+              <p class="mt-1.5 text-sm leading-relaxed text-text-secondary">
+                {useCase.description}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

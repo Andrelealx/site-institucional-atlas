@@ -1,0 +1,106 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { waLink, mailLink, instagramLink, EMAIL, SITE } from '../config/site';
+
+const instagram = instagramLink();
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: 'Serviços', href: '#servicos' },
+  { label: 'Portfólio', href: '#portfolio' },
+  { label: 'Contato', href: '#contato' },
+];
+---
+
+<footer class="border-t border-border-soft bg-bg-base py-14">
+  <div class="container-site">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="lg:col-span-2">
+        <Logo />
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-text-secondary">
+          Sites, sistemas e automações para negócios locais. Presença digital
+          que trabalha pelo seu negócio.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-text-primary">Navegação</h3>
+        <ul class="mt-4 flex flex-col gap-2.5">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-text-secondary transition hover:text-brand"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="text-sm font-semibold text-text-primary">Contato</h3>
+        <ul class="mt-4 flex flex-col gap-3">
+          <li>
+            <a
+              href={waLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 text-sm text-text-secondary transition hover:text-brand"
+            >
+              <Icon name="message-circle" size={16} />
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a
+              href={mailLink()}
+              class="inline-flex items-center gap-2 text-sm text-text-secondary transition hover:text-brand"
+            >
+              <Icon name="mail" size={16} />
+              {EMAIL}
+            </a>
+          </li>
+          {
+            instagram && (
+              <li>
+                <a
+                  href={instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm text-text-secondary transition hover:text-brand"
+                >
+                  <Icon name="instagram" size={16} />
+                  Instagram
+                </a>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border-soft pt-6 sm:flex-row"
+    >
+      <div class="flex flex-col items-center gap-1 sm:items-start">
+        <p class="text-xs text-text-secondary">
+          © {year} Atlas Tecnologias. Todos os direitos reservados.
+        </p>
+        <p class="text-xs text-text-secondary">
+          {SITE.legalName} · CNPJ {SITE.cnpj}
+        </p>
+      </div>
+      <a
+        href="/politica-de-privacidade"
+        class="text-xs text-text-secondary transition hover:text-brand"
+      >
+        Política de Privacidade
+      </a>
+    </div>
+  </div>
+</footer>

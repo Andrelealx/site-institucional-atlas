@@ -1,0 +1,124 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../config/site';
+---
+
+<section
+  id="inicio"
+  class="relative flex min-h-[85vh] items-center overflow-hidden pt-16"
+>
+  <!-- Grid sutil + glow radial lime -->
+  <div class="pointer-events-none absolute inset-0 bg-grid-soft bg-[size:48px_48px] opacity-40"></div>
+  <div
+    class="pointer-events-none absolute -top-32 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full bg-brand/10 blur-[120px]"
+  >
+  </div>
+
+  <div class="container-site relative grid items-center gap-12 py-16 lg:grid-cols-12">
+    <div class="lg:col-span-7">
+      <span class="eyebrow animate-fade-up">
+        <span class="h-1.5 w-1.5 rounded-full bg-brand"></span>
+        Região Serrana - RJ
+      </span>
+
+      <h1
+        class="mt-5 text-4xl font-bold leading-[1.08] tracking-tight text-text-primary animate-fade-up sm:text-5xl lg:text-6xl"
+      >
+        Presença digital que
+        <span class="text-brand"> trabalha pelo seu negócio</span>.
+      </h1>
+
+      <p
+        class="mt-6 max-w-xl text-lg leading-relaxed text-text-secondary animate-fade-up"
+      >
+        A Atlas constrói a estrutura digital de negócios locais — sites que
+        convertem, sistemas sob medida e automações. Coisa que funciona e dá
+        retorno, não site bonito parado.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-4 animate-fade-up">
+        <a href={waLink()} target="_blank" rel="noopener noreferrer" class="btn-primary">
+          <Icon name="message-circle" size={18} />
+          Falar no WhatsApp
+        </a>
+        <a href="#portfolio" class="btn-secondary">
+          Ver portfólio
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+
+    <!-- Elemento visual à direita (desktop): mock abstrato de produto -->
+    <div class="hidden lg:col-span-5 lg:block">
+      <div class="relative animate-fade-up">
+        <!-- Janela principal -->
+        <div
+          class="relative overflow-hidden rounded-xl border border-border-soft bg-bg-surface/80 shadow-glow"
+        >
+          <div
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(200,241,53,0.12),transparent_55%)]"
+          >
+          </div>
+          <!-- Barra de janela -->
+          <div class="flex items-center gap-2 border-b border-border-soft px-4 py-3">
+            <span class="h-2.5 w-2.5 rounded-full bg-border-soft"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-border-soft"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-brand/60"></span>
+          </div>
+          <!-- Conteúdo -->
+          <div class="relative space-y-5 p-6">
+            <div class="flex items-center justify-between">
+              <div class="space-y-2">
+                <div class="h-2.5 w-24 rounded-full bg-text-secondary/30"></div>
+                <div class="h-2 w-16 rounded-full bg-border-soft"></div>
+              </div>
+              <div
+                class="inline-flex h-9 items-center rounded-xl bg-brand px-3 text-xs font-semibold text-bg-base"
+              >
+                Novo lead
+              </div>
+            </div>
+
+            <!-- "Gráfico" de barras -->
+            <div class="flex h-28 items-end gap-2.5">
+              {
+                [40, 65, 50, 80, 60, 95, 72].map((h) => (
+                  <div
+                    class="flex-1 rounded-t-md bg-gradient-to-t from-brand/20 to-brand"
+                    style={`height:${h}%`}
+                  />
+                ))
+              }
+            </div>
+
+            <!-- Linhas de lista -->
+            <div class="space-y-3">
+              {
+                [0, 1, 2].map(() => (
+                  <div class="flex items-center gap-3 rounded-xl border border-border-soft bg-bg-base/40 p-3">
+                    <span class="h-7 w-7 shrink-0 rounded-lg bg-brand/15" />
+                    <div class="flex-1 space-y-1.5">
+                      <div class="h-2 w-3/4 rounded-full bg-text-secondary/25" />
+                      <div class="h-2 w-1/2 rounded-full bg-border-soft" />
+                    </div>
+                    <span class="h-2 w-10 rounded-full bg-brand/40" />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Badge flutuante com o símbolo da marca -->
+        <div
+          class="absolute -bottom-5 -left-5 flex h-16 w-16 items-center justify-center rounded-xl border border-border-soft bg-bg-base shadow-glow-sm"
+        >
+          <svg viewBox="0 0 100 100" class="h-9 w-9">
+            <path d="M50 20 L78 46 L68 46 L50 30 L32 46 L22 46 Z" fill="#C8F135" />
+            <path d="M50 42 L78 68 L68 68 L50 52 L32 68 L22 68 Z" fill="#C8F135" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,150 @@
+---
+// Fontes self-hosted (sem request ao Google — melhor perf e LGPD)
+import '@fontsource-variable/inter';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
+import '../styles/global.css';
+import { SITE } from '../config/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Caminho relativo da página (para canonical/OG). */
+  path?: string;
+}
+
+const {
+  title = `${SITE.name} — ${SITE.tagline}`,
+  description = SITE.description,
+  path = '/',
+} = Astro.props;
+
+const canonical = new URL(path, SITE.url).href;
+const ogImage = new URL(SITE.ogImage, SITE.url).href;
+
+// JSON-LD LocalBusiness — SEO local (docs/02-requisitos-do-site.md)
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  legalName: SITE.legalName,
+  taxID: SITE.cnpj,
+  description: SITE.description,
+  url: SITE.url,
+  image: ogImage,
+  areaServed: SITE.region,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: SITE.city,
+    addressRegion: SITE.state,
+    addressCountry: SITE.country,
+  },
+  knowsAbout: [
+    'Criação de sites',
+    'Sistemas sob medida',
+    'Automação de WhatsApp',
+    'Integrações e pagamentos',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="agência digital, criação de sites, sistema sob medida, automação WhatsApp, Teresópolis, Região Serrana RJ"
+    />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="theme-color" content="#0A0B0D" />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd)}
+    />
+  </head>
+  <body>
+    <!-- Acessibilidade: pular direto para o conteúdo -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-xl focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg-base"
+    >
+      Pular para o conteúdo
+    </a>
+    <slot />
+
+    <script>
+      // Scroll reveal — anima elementos [data-reveal] ao entrar na viewport.
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (reduce) {
+        revealEls.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      }
+
+      // Nav ativo — destaca o link da seção visível.
+      const navLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('[data-nav]')
+      );
+      const sections = navLinks
+        .map((link) => document.querySelector<HTMLElement>(link.hash))
+        .filter((el): el is HTMLElement => el !== null);
+
+      if (sections.length) {
+        const spy = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const id = entry.target.id;
+              navLinks.forEach((link) => {
+                const active = link.hash === `#${id}`;
+                link.classList.toggle('text-brand', active);
+                link.classList.toggle('text-text-secondary', !active);
+                if (active) link.setAttribute('aria-current', 'true');
+                else link.removeAttribute('aria-current');
+              });
+            });
+          },
+          { threshold: 0.5, rootMargin: '-20% 0px -50% 0px' }
+        );
+        sections.forEach((s) => spy.observe(s));
+      }
+    </script>
+  </body>
+</html>

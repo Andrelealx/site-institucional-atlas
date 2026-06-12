@@ -1,0 +1,67 @@
+---
+import Icon from './Icon.astro';
+import ImageWithFallback from './ImageWithFallback.astro';
+import { projects } from '../data/projects';
+---
+
+<section id="portfolio" class="relative py-24">
+  <div class="container-site">
+    <div class="max-w-2xl" data-reveal>
+      <span class="eyebrow">Portfólio</span>
+      <h2 class="section-title mt-3">Trabalhos que entregam resultado</h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Uma amostra do que construímos para negócios locais.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        projects.map((project, i) => {
+          const Tag = project.url ? 'a' : 'div';
+          return (
+            <Tag
+              {...(project.url
+                ? { href: project.url, target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+              class="group card overflow-hidden p-0"
+              data-reveal
+              data-reveal-delay={i % 3}
+            >
+              <div class="overflow-hidden">
+                <div class="transition-transform duration-500 group-hover:scale-105">
+                  <ImageWithFallback
+                    src={project.image}
+                    alt={project.title}
+                    ratio="aspect-video"
+                  />
+                </div>
+              </div>
+              <div class="flex flex-col gap-2 p-5">
+                <span class="text-xs font-semibold uppercase tracking-wider text-brand">
+                  {project.category}
+                </span>
+                <h3 class="flex items-center gap-1.5 font-display text-lg font-bold text-text-primary">
+                  {project.title}
+                  {project.url && (
+                    <Icon
+                      name="arrow-up-right"
+                      size={16}
+                      class="opacity-0 transition group-hover:opacity-100"
+                    />
+                  )}
+                </h3>
+                <p class="text-sm leading-relaxed text-text-secondary">
+                  {project.description}
+                </p>
+              </div>
+            </Tag>
+          );
+        })
+      }
+    </div>
+
+    <p class="mt-8 text-sm text-text-secondary">
+      * Projetos ilustrativos. Cases reais entram em breve.
+    </p>
+  </div>
+</section>

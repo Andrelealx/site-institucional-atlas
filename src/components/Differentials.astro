@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+import { differentials } from '../data/services';
+---
+
+<section
+  id="diferenciais"
+  class="relative border-y border-border-soft bg-bg-surface/30 py-24"
+>
+  <div class="container-site grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-4" data-reveal>
+      <span class="eyebrow">Por que a Atlas</span>
+      <h2 class="section-title mt-3">Parceiro técnico, não fornecedor genérico</h2>
+      <p class="mt-4 text-lg text-text-secondary">
+        Quem entende de código de verdade e foca no resultado do seu negócio.
+      </p>
+    </div>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:col-span-8">
+      {
+        differentials.map((item, i) => (
+          <article
+            class="flex flex-col gap-3 rounded-xl border border-border-soft bg-bg-base/40 p-6"
+            data-reveal
+            data-reveal-delay={i % 3}
+          >
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+              <Icon name={item.icon} size={22} />
+            </span>
+            <h3 class="font-display text-base font-bold text-text-primary">
+              {item.title}
+            </h3>
+            <p class="text-sm leading-relaxed text-text-secondary">
+              {item.description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

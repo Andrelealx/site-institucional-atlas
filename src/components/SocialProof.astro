@@ -1,0 +1,46 @@
+---
+/**
+ * Prova social — depoimentos de clientes.
+ *
+ * PENDÊNCIA (docs/12): coletar depoimentos reais (nome, negócio, texto).
+ * Componente pronto, mas NÃO incluído no index.astro até haver conteúdo real
+ * — depoimento inventado quebra a confiança. Para ativar: importar e renderizar
+ * <SocialProof /> no index e preencher o array abaixo.
+ */
+
+interface Testimonial {
+  name: string;
+  business: string;
+  quote: string;
+}
+
+// Preencher com depoimentos reais antes de ativar.
+const testimonials: Testimonial[] = [];
+---
+
+{
+  testimonials.length > 0 && (
+    <section id="depoimentos" class="relative py-24">
+      <div class="container-site">
+        <div class="max-w-2xl" data-reveal>
+          <span class="eyebrow">Quem já trabalhou com a Atlas</span>
+          <h2 class="section-title mt-3">Resultado que o cliente sente</h2>
+        </div>
+
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <figure class="card flex flex-col gap-4" data-reveal data-reveal-delay={i % 3}>
+              <blockquote class="text-text-primary">“{t.quote}”</blockquote>
+              <figcaption class="mt-auto">
+                <span class="block text-sm font-semibold text-text-primary">
+                  {t.name}
+                </span>
+                <span class="block text-sm text-text-secondary">{t.business}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

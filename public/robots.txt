@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atlastecnologias.com.br/sitemap-index.xml
