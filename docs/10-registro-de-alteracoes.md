@@ -1,5 +1,17 @@
 # Registro de Alterações
 
+## 2026-06-12 (portfólio híbrido)
+
+### Alterado
+
+- **Card de portfólio híbrido**: projeto com `image` mostra a captura; sem `image`, renderiza um painel desenhado da marca (gradiente + grade + brilho lime + ícone). Adicionados `icon` e `tags` (chips) ao modelo `Project`.
+- **CT Quebrando Limites**: print refeito esperando a animação assentar (hero completo com countdown).
+- **Suporte Única**: trocado o print do formulário por card desenhado (o miolo do sistema exige login). Ícone `headphones` + chips. Removida `portfolio-unica.jpg`.
+
+### Arquivos modificados
+
+- `src/components/Portfolio.astro`, `src/data/projects.ts`, `public/images/portfolio-ct.jpg` (atualizado), `public/images/portfolio-unica.jpg` (removido)
+
 ## 2026-06-12 (revisão mobile + conversão)
 
 ### Alterado

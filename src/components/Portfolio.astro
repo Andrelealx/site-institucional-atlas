@@ -28,13 +28,28 @@ import { projects } from '../data/projects';
               data-reveal-delay={i % 3}
             >
               <div class="overflow-hidden">
-                <div class="transition-transform duration-500 group-hover:scale-105">
-                  <ImageWithFallback
-                    src={project.image}
-                    alt={project.title}
-                    ratio="aspect-video"
-                  />
-                </div>
+                {project.image ? (
+                  <div class="transition-transform duration-500 group-hover:scale-105">
+                    <ImageWithFallback
+                      src={project.image}
+                      alt={project.title}
+                      ratio="aspect-video"
+                    />
+                  </div>
+                ) : (
+                  <div class="relative flex aspect-video items-center justify-center overflow-hidden bg-gradient-to-br from-bg-surface-2 to-bg-base">
+                    {/* Grade sutil de fundo */}
+                    <div
+                      class="absolute inset-0 opacity-[0.07]"
+                      style="background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:28px 28px;"
+                    />
+                    {/* Brilho lime */}
+                    <div class="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-brand/20 blur-3xl" />
+                    <span class="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-brand/30 bg-brand/10 text-brand transition group-hover:scale-105">
+                      <Icon name={project.icon ?? 'code-2'} size={36} />
+                    </span>
+                  </div>
+                )}
               </div>
               <div class="flex flex-col gap-2 p-5">
                 <span class="text-xs font-semibold uppercase tracking-wider text-brand">
@@ -53,6 +68,15 @@ import { projects } from '../data/projects';
                 <p class="text-sm leading-relaxed text-text-secondary">
                   {project.description}
                 </p>
+                {project.tags && project.tags.length > 0 && (
+                  <div class="mt-2 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span class="rounded-full border border-border-soft px-2.5 py-1 text-xs text-text-secondary">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </Tag>
           );
