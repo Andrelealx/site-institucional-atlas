@@ -17,8 +17,8 @@
   const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement | null;
 
   // Guardas de performance / acessibilidade — em qualquer falha, não inicia.
+  // Mobile roda com versão leve (menos partículas — ver constellation.ts).
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const small = window.matchMedia('(max-width: 768px)').matches;
   const nav = navigator as Navigator & { deviceMemory?: number };
   const lowMem = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 2;
   const noWebGL = (() => {
@@ -30,7 +30,7 @@
     }
   })();
 
-  if (canvas && wrap && !reduce && !small && !lowMem && !noWebGL) {
+  if (canvas && wrap && !reduce && !lowMem && !noWebGL) {
     // Import dinâmico: chunk separado, fora do critical path.
     import('../scripts/constellation')
       .then((m) => {

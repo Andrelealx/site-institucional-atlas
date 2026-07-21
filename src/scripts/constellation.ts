@@ -4,7 +4,8 @@
 // depois que o conteúdo carrega, e só é chamado quando as guardas de perf passam.
 import * as THREE from 'three';
 
-const COUNT = 1600; // partículas — leve o bastante pra manter 60fps sem pesar o main thread
+// Partículas — contagem dinâmica: leve no mobile pra manter 60fps.
+let COUNT = 1600;
 const COLOR = new THREE.Color('#C8F135'); // lime oficial da marca
 
 // ---------------------------------------------------------------------------
@@ -95,12 +96,12 @@ function buildShapes() {
 }
 const SHAPE_CYCLE = [
   'chevron', // hero
+  'chevron', // parceiros (faixa fina — segura o chevron)
   'graph', // serviços
   'graph', // casos de uso
   'bars', // portfólio
   'bars', // planos
   'sphere', // diferenciais
-  'sphere', // prova social
   'chevron', // CTA final
   'chevron', // contato
 ];
@@ -139,6 +140,9 @@ const FRAG = /* glsl */ `
 `;
 
 export function initConstellation(canvas: HTMLCanvasElement) {
+  // Menos partículas em telas pequenas — mesma cena, custo menor.
+  const isMobile = window.innerWidth <= 768;
+  COUNT = isMobile ? 650 : 1600;
   buildShapes();
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
@@ -171,7 +175,7 @@ export function initConstellation(canvas: HTMLCanvasElement) {
     blending: THREE.AdditiveBlending,
     uniforms: {
       uTime: { value: 0 },
-      uSize: { value: 62 },
+      uSize: { value: isMobile ? 78 : 62 },
       uPixelRatio: { value: pixelRatio },
       uColor: { value: COLOR },
       uOpacity: { value: 0.55 }, // sutil — o conteúdo é o herói

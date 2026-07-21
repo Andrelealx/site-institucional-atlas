@@ -170,3 +170,26 @@
 ### Próximo passo
 
 - Rodar Lighthouse real (desktop+mobile) e ajustar densidade/opacidade se necessário. Avaliar linhas de conexão no estado "grafo" (v2).
+
+---
+
+## 2026-07-20 — Constelação no mobile + seção de Parceiros
+
+### Alterado
+
+- Constelação Atlas agora roda no mobile em versão leve (650 partículas vs 1600 no desktop; ponto maior). Removida a guarda que desligava tudo em ≤768px — mantidas reduced-motion / low-mem / no-WebGL.
+- Nova seção **Parceiros** (faixa marquee de logos) após o Hero. Dados em `src/data/partners.ts`; placeholders neutros enquanto não há logos reais.
+- `SHAPE_CYCLE` da constelação reindexado por causa da nova seção.
+
+### Arquivos modificados
+
+- `src/scripts/constellation.ts`, `src/components/BackgroundCanvas.astro`, `src/components/Partners.astro` (novo), `src/data/partners.ts` (novo), `src/pages/index.astro`.
+
+### Motivo
+
+- Cliente reportou animação ausente no mobile e site "muito simples"; pediu logos de parceiros.
+
+### Próximo passo
+
+- Soltar logos reais em `public/images/partners/` e preencher `partners.ts`.
+- Definir com o cliente mais elementos de riqueza (contadores animados, hero scramble, etc.).
