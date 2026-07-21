@@ -47,7 +47,7 @@
   }
 
   .card {
-    @apply rounded-xl border border-border-soft bg-bg-surface p-6 transition hover:border-brand/40;
+    @apply rounded-xl border border-border-soft bg-bg-surface p-6 transition duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-glow;
   }
 
   .eyebrow {

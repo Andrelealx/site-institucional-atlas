@@ -100,6 +100,13 @@ const jsonLd = {
     <slot />
 
     <script>
+      // Micro-interações (contadores, botões magnéticos, scramble) — chunk lazy.
+      import('../scripts/enhancements')
+        .then((m) => m.initEnhancements())
+        .catch(() => {});
+    </script>
+
+    <script>
       // Scroll reveal — anima elementos [data-reveal] ao entrar na viewport.
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');

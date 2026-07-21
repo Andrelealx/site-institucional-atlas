@@ -99,8 +99,9 @@ const SHAPE_CYCLE = [
   'chevron', // parceiros (faixa fina — segura o chevron)
   'graph', // serviços
   'graph', // casos de uso
+  'bars', // números (contadores)
   'bars', // portfólio
-  'bars', // planos
+  'sphere', // planos
   'sphere', // diferenciais
   'chevron', // CTA final
   'chevron', // contato

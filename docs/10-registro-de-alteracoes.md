@@ -193,3 +193,26 @@
 
 - Soltar logos reais em `public/images/partners/` e preencher `partners.ts`.
 - Definir com o cliente mais elementos de riqueza (contadores animados, hero scramble, etc.).
+
+---
+
+## 2026-07-20 — Contadores animados + micro-interações + depth
+
+### Alterado
+
+- Nova seção **Números** (`#numeros`) com contadores animados (count-up ao entrar na viewport, divisor gradiente lime, glow no hover). Dados em `src/data/stats.ts`.
+- **Micro-interações** (`src/scripts/enhancements.ts`, chunk lazy): botões magnéticos (`.btn-primary` + `[data-magnetic]`), título do Hero com efeito scramble/decrypt, count-up. Desativa efeitos estéticos em reduced-motion; contadores sempre chegam ao valor final.
+- **Depth**: cards com elevação + `shadow-glow` no hover.
+- `SHAPE_CYCLE` reindexado pela seção Números.
+
+### Arquivos modificados
+
+- `src/scripts/enhancements.ts` (novo), `src/data/stats.ts` (novo), `src/components/Stats.astro` (novo), `src/components/Hero.astro`, `src/layouts/Layout.astro`, `src/styles/global.css`, `src/scripts/constellation.ts`, `src/pages/index.astro`.
+
+### Motivo
+
+- Cliente pediu contadores animados e mais riqueza visual.
+
+### Próximo passo
+
+- **PENDÊNCIA**: confirmar os 4 números em `src/data/stats.ts` (hoje são valores editáveis/defensáveis, não medidos).
