@@ -1,7 +1,7 @@
 ---
 // Canvas de fundo da Constelação Atlas. Fixo atrás de todo o conteúdo (-z-10),
-// transparente, sem captura de eventos. O motor (three.js) só carrega e inicia
-// quando as guardas de performance passam — caso contrário fica o grid+glow CSS.
+// transparente, sem captura de eventos. Motor em Canvas2D (leve) carregado após
+// o load, quando a thread está ociosa. Se as guardas falharem, fica só o CSS.
 ---
 
 <div
@@ -16,23 +16,12 @@
   const wrap = document.getElementById('bg-canvas-wrap');
   const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement | null;
 
-  // Guardas de performance / acessibilidade — em qualquer falha, não inicia.
-  // Mobile roda com versão leve (menos partículas — ver constellation.ts).
+  // Guardas de acessibilidade/hardware — em qualquer falha, não inicia.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const nav = navigator as Navigator & { deviceMemory?: number };
-  const lowMem = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 2;
-  const noWebGL = (() => {
-    try {
-      const c = document.createElement('canvas');
-      return !(c.getContext('webgl2') || c.getContext('webgl'));
-    } catch {
-      return true;
-    }
-  })();
+  const lowMem = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 1;
 
-  if (canvas && wrap && !reduce && !lowMem && !noWebGL) {
-    // Só carrega o three.js (chunk pesado) DEPOIS do load + quando a thread
-    // estiver ociosa. Assim não compete com a primeira pintura / interatividade.
+  if (canvas && wrap && !reduce && !lowMem) {
     const start = () =>
       import('../scripts/constellation')
         .then((m) => {
@@ -43,23 +32,14 @@
           /* silencioso — fallback é o fundo CSS já existente */
         });
 
-    // Carrega o three.js (chunk pesado) só na PRIMEIRA interação do usuário —
-    // scroll, mouse ou toque. Mantém o carregamento inicial leve; quem não
-    // interage recebe o fundo via fallback ocioso mais tarde.
-    let triggered = false;
-    const evs = ['pointermove', 'scroll', 'touchstart', 'wheel', 'keydown'] as const;
-    const cleanup = () => evs.forEach((e) => window.removeEventListener(e, trigger));
-    function trigger() {
-      if (triggered) return;
-      triggered = true;
-      cleanup();
-      start();
-    }
-    evs.forEach((e) => window.addEventListener(e, trigger, { once: true, passive: true }));
-    // Fallback: sessão sem interação nenhuma recebe o fundo depois de ocioso.
-    setTimeout(() => {
-      if ('requestIdleCallback' in window) (window as any).requestIdleCallback(trigger, { timeout: 2000 });
-      else trigger();
-    }, 6000);
+    // Chunk é minúsculo (Canvas2D, sem three.js) — carrega no ocioso após o load,
+    // sem competir com a primeira pintura e sem travar a interação.
+    const idle = () =>
+      'requestIdleCallback' in window
+        ? (window as any).requestIdleCallback(start, { timeout: 1500 })
+        : setTimeout(start, 400);
+
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
   }
 </script>

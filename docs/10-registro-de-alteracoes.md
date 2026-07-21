@@ -339,3 +339,33 @@
 ### Motivo
 
 - Cliente relatou navbar mobile "quebrada": menu sem acabamento, dúvida sobre abrir/fechar e header sob o notch.
+
+---
+
+## 2026-07-21 — Constelação: three.js → Canvas2D (fim do freeze)
+
+### Problema
+
+O fundo animado usava three.js (chunk de 466kb). O parse + init do WebGL travava a
+main thread no momento em que carregava — a página "congelava até a animação 3D
+aparecer". Número de Lighthouse não pegava (WebGL headless distorce), mas a
+experiência real sofria.
+
+### Alterado
+
+- **Constelação reescrita em Canvas2D puro** (sem dependências). Mesmo efeito
+  (morph chevron→grafo→barras→orbe por scroll) com sprite de brilho pré-renderizado,
+  cap de 30fps e "assentamento" (dorme parada).
+- **three.js e @types/three removidos** do projeto.
+- Chunk da constelação: **466kb → 3.4kb** (117kb → 1.7kb gzip). Parse desprezível → sem freeze.
+- Funciona em qualquer device (Canvas2D não depende de WebGL/GPU).
+- Guarda `noWebGL` removida (desnecessária); carrega no ocioso após o load.
+
+### Resultado
+
+- Lighthouse mobile **100/100/100/100**, TBT **0ms** mesmo com a animação ativa.
+- bootup da constelação: ~120ms (era o three.js de 466kb).
+
+### Arquivos modificados
+
+- `src/scripts/constellation.ts` (reescrito), `src/components/BackgroundCanvas.astro`, `package.json`.

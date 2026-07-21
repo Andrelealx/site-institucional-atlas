@@ -1,105 +1,80 @@
-// Constelação Atlas — sistema de partículas WebGL que faz morph conforme o scroll.
-// Fundo sutil e corporativo: chevron (hero) → grafo (serviços) → barras (portfólio)
-// → orbe (diferenciais) → chevron (contato). Import dinâmico: só entra no bundle
-// depois que o conteúdo carrega, e só é chamado quando as guardas de perf passam.
-import * as THREE from 'three';
+// Constelação Atlas — sistema de partículas em Canvas2D (sem dependências).
+// Faz morph conforme o scroll: chevron (hero) → grafo → barras → orbe → chevron.
+// Trocado de three.js (466kb, travava a main thread ao carregar) por Canvas2D
+// (~poucos kb): parse desprezível, sem freeze. Render capado a 30fps e a cena
+// "dorme" quando está parada — custo de CPU ~zero em repouso.
 
-// Partículas — contagem dinâmica: leve no mobile pra manter 60fps.
-let COUNT = 1600;
-const COLOR = new THREE.Color('#C8F135'); // lime oficial da marca
+let COUNT = 900;
+const UNIT = 46; // escala de projeção (px por unidade do espaço das formas)
 
 // ---------------------------------------------------------------------------
-// Geradores de forma — cada um preenche um Float32Array (COUNT*3) com os alvos
-// de posição de cada partícula. O morph interpola a posição atual em direção
-// ao alvo da seção visível.
+// Geradores de forma — devolvem alvos [x0,y0, x1,y1, ...] no espaço virtual.
 // ---------------------------------------------------------------------------
-
-/** Chevron ascendente duplo — o símbolo da marca. Apex no topo, braços descem. */
 function shapeChevron(): Float32Array {
-  const a = new Float32Array(COUNT * 3);
-  const apexYs = [1.7, -0.6]; // dois chevrons empilhados
-  const spread = 3.0; // meia-largura horizontal
-  const drop = 2.2; // quanto os braços descem
+  const a = new Float32Array(COUNT * 2);
+  const apexYs = [-1.6, 0.7];
+  const spread = 3.0;
+  const drop = 2.2;
   for (let i = 0; i < COUNT; i++) {
-    const chev = i % 2; // alterna entre os dois chevrons
-    const side = i % 4 < 2 ? -1 : 1; // braço esquerdo / direito
-    const t = Math.random(); // 0 = apex, 1 = ponta do braço
-    a[i * 3] = side * t * spread + (Math.random() - 0.5) * 0.28;
-    a[i * 3 + 1] = apexYs[chev] - t * drop + (Math.random() - 0.5) * 0.28;
-    a[i * 3 + 2] = (Math.random() - 0.5) * 1.4;
+    const chev = i % 2;
+    const side = i % 4 < 2 ? -1 : 1;
+    const t = Math.random();
+    a[i * 2] = side * t * spread + (Math.random() - 0.5) * 0.28;
+    a[i * 2 + 1] = apexYs[chev] + t * drop + (Math.random() - 0.5) * 0.28;
   }
   return a;
 }
-
-/** Grafo/rede — grade jitterada dentro de um disco: leitura de "nós conectados". */
 function shapeGraph(): Float32Array {
-  const a = new Float32Array(COUNT * 3);
+  const a = new Float32Array(COUNT * 2);
   const cols = 9;
   const rows = 7;
-  const gx = 7.2 / cols;
+  const gx = 7.4 / cols;
   const gy = 5.4 / rows;
   for (let i = 0; i < COUNT; i++) {
     const c = i % cols;
     const r = Math.floor(i / cols) % rows;
-    const x = (c - (cols - 1) / 2) * gx;
-    const y = (r - (rows - 1) / 2) * gy;
-    // jitter forte pra parecer orgânico, não uma grade rígida
-    a[i * 3] = x + (Math.random() - 0.5) * gx * 0.9;
-    a[i * 3 + 1] = y + (Math.random() - 0.5) * gy * 0.9;
-    a[i * 3 + 2] = (Math.random() - 0.5) * 2.2;
+    a[i * 2] = (c - (cols - 1) / 2) * gx + (Math.random() - 0.5) * gx * 0.9;
+    a[i * 2 + 1] = (r - (rows - 1) / 2) * gy + (Math.random() - 0.5) * gy * 0.9;
   }
   return a;
 }
-
-/** Barras subindo — leitura de "resultado / crescimento". */
 function shapeBars(): Float32Array {
-  const a = new Float32Array(COUNT * 3);
+  const a = new Float32Array(COUNT * 2);
   const bars = 14;
   const heights = [0.3, 0.5, 0.42, 0.68, 0.55, 0.8, 0.62, 0.9, 0.72, 1, 0.85, 1.1, 0.95, 1.25];
   const width = 8.4;
   const bw = width / bars;
-  const baseY = -2.6;
+  const baseY = 2.6;
   for (let i = 0; i < COUNT; i++) {
     const b = i % bars;
     const h = heights[b] * 4.2;
-    const x = (b - (bars - 1) / 2) * bw;
-    a[i * 3] = x + (Math.random() - 0.5) * bw * 0.55;
-    a[i * 3 + 1] = baseY + Math.random() * h;
-    a[i * 3 + 2] = (Math.random() - 0.5) * 1.2;
+    a[i * 2] = (b - (bars - 1) / 2) * bw + (Math.random() - 0.5) * bw * 0.55;
+    a[i * 2 + 1] = baseY - Math.random() * h;
   }
   return a;
 }
-
-/** Orbe — esfera de Fibonacci: "estrutura fechada, alcance regional". */
 function shapeSphere(): Float32Array {
-  const a = new Float32Array(COUNT * 3);
+  // Projeção 2D de uma esfera de Fibonacci → disco pontilhado.
+  const a = new Float32Array(COUNT * 2);
   const R = 3.1;
-  const phi = Math.PI * (3 - Math.sqrt(5)); // ângulo áureo
+  const phi = Math.PI * (3 - Math.sqrt(5));
   for (let i = 0; i < COUNT; i++) {
     const y = 1 - (i / (COUNT - 1)) * 2;
     const rad = Math.sqrt(1 - y * y);
     const theta = phi * i;
-    a[i * 3] = Math.cos(theta) * rad * R;
-    a[i * 3 + 1] = y * R;
-    a[i * 3 + 2] = Math.sin(theta) * rad * R;
+    a[i * 2] = Math.cos(theta) * rad * R;
+    a[i * 2 + 1] = y * R;
   }
   return a;
 }
 
-// Ciclo de formas por ordem das seções na página (index-based, sem depender de ids).
 const SHAPES: Record<string, Float32Array> = {};
-function buildShapes() {
-  SHAPES.chevron = shapeChevron();
-  SHAPES.graph = shapeGraph();
-  SHAPES.bars = shapeBars();
-  SHAPES.sphere = shapeSphere();
-}
 const SHAPE_CYCLE = [
   'chevron', // hero
-  'chevron', // parceiros (faixa fina — segura o chevron)
+  'chevron', // parceiros
   'graph', // serviços
   'graph', // casos de uso
-  'bars', // números (contadores)
+  'bars', // números
   'bars', // portfólio
   'sphere', // planos
   'sphere', // diferenciais
@@ -107,90 +82,69 @@ const SHAPE_CYCLE = [
   'chevron', // contato
 ];
 
-// ---------------------------------------------------------------------------
-// Shaders — ponto lime macio com atenuação por profundidade e drift suave.
-// ---------------------------------------------------------------------------
-const VERT = /* glsl */ `
-  attribute float aSeed;
-  uniform float uTime;
-  uniform float uSize;
-  uniform float uPixelRatio;
-  varying float vFade;
-  void main() {
-    vec3 p = position;
-    // respiração/drift sutil por partícula
-    p.x += sin(uTime * 0.5 + aSeed * 6.2831) * 0.12;
-    p.y += cos(uTime * 0.4 + aSeed * 6.2831) * 0.12;
-    vec4 mv = modelViewMatrix * vec4(p, 1.0);
-    gl_Position = projectionMatrix * mv;
-    gl_PointSize = uSize * uPixelRatio * (1.0 / -mv.z);
-    vFade = clamp(1.0 / -mv.z, 0.2, 1.0); // pontos mais distantes mais apagados
-  }
-`;
-const FRAG = /* glsl */ `
-  precision mediump float;
-  uniform vec3 uColor;
-  uniform float uOpacity;
-  varying float vFade;
-  void main() {
-    float d = length(gl_PointCoord - 0.5);
-    float alpha = smoothstep(0.5, 0.12, d) * uOpacity * vFade;
-    if (alpha < 0.01) discard;
-    gl_FragColor = vec4(uColor, alpha);
-  }
-`;
+/** Sprite de brilho pré-renderizado (uma vez) — drawImage é muito mais barato
+ *  do que criar radial-gradient por partícula a cada frame. */
+function makeGlowSprite(size: number): HTMLCanvasElement {
+  const s = document.createElement('canvas');
+  s.width = s.height = size;
+  const g = s.getContext('2d')!;
+  const grd = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  grd.addColorStop(0, 'rgba(200,241,53,0.9)');
+  grd.addColorStop(0.4, 'rgba(200,241,53,0.35)');
+  grd.addColorStop(1, 'rgba(200,241,53,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, size, size);
+  return s;
+}
 
 export function initConstellation(canvas: HTMLCanvasElement) {
-  // Menos partículas em telas pequenas — mesma cena, custo menor.
+  const ctx = canvas.getContext('2d', { alpha: true });
+  if (!ctx) return;
+
   const isMobile = window.innerWidth <= 768;
-  COUNT = isMobile ? 450 : 1100;
-  buildShapes();
+  COUNT = isMobile ? 380 : 900;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-  const pixelRatio = Math.min(window.devicePixelRatio, 1.5); // capa DPR — protege perf
-  renderer.setPixelRatio(pixelRatio);
-  renderer.setSize(window.innerWidth, window.innerHeight, false);
-  renderer.setClearColor(0x000000, 0); // transparente: mostra o bg escuro do body
+  SHAPES.chevron = shapeChevron();
+  SHAPES.graph = shapeGraph();
+  SHAPES.bars = shapeBars();
+  SHAPES.sphere = shapeSphere();
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.z = 9;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  let w = 0;
+  let h = 0;
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
 
-  const group = new THREE.Group();
-  scene.add(group);
+  const spriteSize = isMobile ? 14 : 18;
+  const sprite = makeGlowSprite(spriteSize);
+  const half = spriteSize / 2;
 
-  // Posições correntes (interpoladas) partem do chevron.
-  const current = SHAPES.chevron.slice();
-  const seeds = new Float32Array(COUNT);
-  for (let i = 0; i < COUNT; i++) seeds[i] = Math.random();
+  // posição corrente (px) + semente de drift
+  const cur = new Float32Array(COUNT * 2);
+  const seed = new Float32Array(COUNT);
+  const scale = () => Math.min(w, h) / 11 + UNIT * 0; // escala responsiva
+  let sc = scale();
+  const project = (vx: number, vy: number, out: [number, number]) => {
+    out[0] = w / 2 + vx * sc;
+    out[1] = h / 2 + vy * sc;
+  };
+  // inicia no chevron
+  {
+    const p: [number, number] = [0, 0];
+    for (let i = 0; i < COUNT; i++) {
+      project(SHAPES.chevron[i * 2], SHAPES.chevron[i * 2 + 1], p);
+      cur[i * 2] = p[0];
+      cur[i * 2 + 1] = p[1];
+      seed[i] = Math.random() * Math.PI * 2;
+    }
+  }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(current, 3));
-  geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
-
-  const mat = new THREE.ShaderMaterial({
-    vertexShader: VERT,
-    fragmentShader: FRAG,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    uniforms: {
-      uTime: { value: 0 },
-      uSize: { value: isMobile ? 78 : 62 },
-      uPixelRatio: { value: pixelRatio },
-      uColor: { value: COLOR },
-      uOpacity: { value: 0.55 }, // sutil — o conteúdo é o herói
-    },
-  });
-
-  const points = new THREE.Points(geo, mat);
-  group.add(points);
-  const posAttr = geo.getAttribute('position') as THREE.BufferAttribute;
-
-  // -------------------------------------------------------------------------
-  // Seção ativa dirige o alvo do morph. IntersectionObserver escolhe a seção
-  // mais centralizada, sem precisar editar cada componente.
-  // -------------------------------------------------------------------------
   let target = SHAPES.chevron;
   const sections = Array.from(document.querySelectorAll('main section'));
   const sectionObserver = new IntersectionObserver(
@@ -201,7 +155,7 @@ export function initConstellation(canvas: HTMLCanvasElement) {
         const key = SHAPE_CYCLE[Math.min(idx, SHAPE_CYCLE.length - 1)] || 'chevron';
         if (SHAPES[key] !== target) {
           target = SHAPES[key];
-          wake(); // nova seção → acorda pra animar a transição
+          wake();
         }
       }
     },
@@ -209,31 +163,27 @@ export function initConstellation(canvas: HTMLCanvasElement) {
   );
   sections.forEach((s) => sectionObserver.observe(s));
 
-  // Parallax leve com o mouse (desktop) — acorda o loop por um instante.
   let mx = 0;
   let my = 0;
   let pointerActiveUntil = 0;
   window.addEventListener(
     'pointermove',
     (e) => {
-      mx = (e.clientX / window.innerWidth - 0.5) * 0.3;
-      my = (e.clientY / window.innerHeight - 0.5) * 0.3;
+      mx = (e.clientX / w - 0.5) * 24;
+      my = (e.clientY / h - 0.5) * 24;
       pointerActiveUntil = performance.now() + 500;
       wake();
     },
     { passive: true }
   );
 
-  // -------------------------------------------------------------------------
-  // Loop com "assentamento": renderiza só durante transições de morph ou quando
-  // o mouse mexe; quando a cena está parada, dorme (custo de CPU ~zero). Cap de
-  // 30fps. Isso mantém a main thread livre — crítico para performance.
-  // -------------------------------------------------------------------------
+  // ---- loop com cap de 30fps + assentamento ----
   let running = false;
   let raf = 0;
   let lastFrame = 0;
   let visible = true;
   const FRAME_MS = 1000 / 30;
+  const tp: [number, number] = [0, 0];
 
   function tick(now: number) {
     if (!running) return;
@@ -241,27 +191,34 @@ export function initConstellation(canvas: HTMLCanvasElement) {
     if (now - lastFrame < FRAME_MS) return;
     lastFrame = now;
 
-    mat.uniforms.uTime.value = now / 1000;
-
-    // morph — mede o quanto ainda falta pro alvo
-    const arr = posAttr.array as Float32Array;
+    const t = now / 1000;
     let maxD = 0;
-    for (let i = 0; i < arr.length; i++) {
-      const d = target[i] - arr[i];
-      arr[i] += d * 0.06;
-      const ad = d < 0 ? -d : d;
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (let i = 0; i < COUNT; i++) {
+      // alvo em px + drift sutil
+      project(target[i * 2], target[i * 2 + 1], tp);
+      const driftX = Math.sin(t * 0.6 + seed[i]) * 3;
+      const driftY = Math.cos(t * 0.5 + seed[i]) * 3;
+      const txp = tp[0] + driftX + mx;
+      const typ = tp[1] + driftY + my;
+
+      const dx = txp - cur[i * 2];
+      const dy = typ - cur[i * 2 + 1];
+      cur[i * 2] += dx * 0.06;
+      cur[i * 2 + 1] += dy * 0.06;
+      const ad = Math.abs(dx) + Math.abs(dy);
       if (ad > maxD) maxD = ad;
+
+      ctx.globalAlpha = 0.38;
+      ctx.drawImage(sprite, cur[i * 2] - half, cur[i * 2 + 1] - half);
     }
-    const morphing = maxD > 0.004;
-    if (morphing) posAttr.needsUpdate = true; // só sobe pra GPU enquanto muda
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
 
-    group.rotation.x += (my - group.rotation.x) * 0.04;
-    group.rotation.z += (mx * 0.4 - group.rotation.z) * 0.04;
-    if (morphing) group.rotation.y += 0.001;
-
-    renderer.render(scene, camera);
-
-    // parou de mudar e o mouse está quieto → dorme
+    // parou de mudar e mouse quieto → dorme (drift é pequeno o bastante p/ parar)
+    const morphing = maxD > 0.5;
     if (!morphing && now >= pointerActiveUntil) stop();
   }
 
@@ -281,14 +238,11 @@ export function initConstellation(canvas: HTMLCanvasElement) {
     cancelAnimationFrame(raf);
   }
 
-  // Pausa total quando a aba fica oculta.
   document.addEventListener('visibilitychange', () => {
     visible = !document.hidden;
     if (visible) wake();
     else stop();
   });
-
-  // Pausa quando o canvas sai da tela (não deveria com fixed, mas garante).
   const canvasObserver = new IntersectionObserver(
     ([entry]) => {
       visible = entry.isIntersecting;
@@ -299,14 +253,12 @@ export function initConstellation(canvas: HTMLCanvasElement) {
   );
   canvasObserver.observe(canvas);
 
-  // Resize.
   let resizeTimer = 0;
   window.addEventListener('resize', () => {
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(() => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      resize();
+      sc = scale();
       wake();
     }, 150);
   });
