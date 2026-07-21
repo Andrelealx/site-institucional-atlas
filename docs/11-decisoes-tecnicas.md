@@ -170,3 +170,29 @@ Build 5.x está estável e validado. Upgrade major no meio do acabamento arrisca
 ### Impacto / Arquivos
 
 - `package.json`. Reavaliar após entrega das pendências do cliente.
+
+---
+
+## Decisão 010 — Fundo animado "Constelação Atlas" (Three.js)
+
+### Decisão
+
+Fundo WebGL de partículas (three.js vanilla) fixo atrás de todo o conteúdo, que faz *morph* de forma conforme a seção visível: chevron (hero) → grafo/rede (serviços) → barras (portfólio/planos) → orbe (diferenciais) → chevron (contato). Intensidade sutil/corporativa (opacidade ~0.55, additive blending, lime #C8F135).
+
+### Motivo
+
+Diferenciação visual "de ponta" sem comprometer conversão nem legibilidade. Conteúdo continua herói; animação é fundo. Narrativa on-brand (chevron ascendente = estrutura que sobe).
+
+### Impacto / Arquivos
+
+- `src/scripts/constellation.ts` (motor de partículas + shaders + morph por scroll, import dinâmico).
+- `src/components/BackgroundCanvas.astro` (canvas `fixed -z-10` + guardas de perf).
+- `src/layouts/Layout.astro` (monta `<BackgroundCanvas/>` antes do slot).
+- `package.json` (dep `three` + `@types/three`).
+
+### Guardas de performance (protegem Lighthouse)
+
+- Chunk lazy (import dinâmico) — fora do critical path; ~117kb gz só sob demanda.
+- Não inicia em: `prefers-reduced-motion`, tela ≤768px, `deviceMemory ≤2`, sem WebGL. Fallback = grid+glow CSS já existente.
+- DPR capado em 1.5; rAF pausa em aba oculta e quando o canvas sai da viewport.
+- Lighthouse mobile (tela pequena) cai no fallback → score preservado.

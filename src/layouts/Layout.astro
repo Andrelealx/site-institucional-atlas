@@ -6,6 +6,7 @@ import '@fontsource/space-grotesk/600.css';
 import '@fontsource/space-grotesk/700.css';
 import '../styles/global.css';
 import { SITE } from '../config/site';
+import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 
 interface Props {
   title?: string;
@@ -95,6 +96,7 @@ const jsonLd = {
     >
       Pular para o conteúdo
     </a>
+    <BackgroundCanvas />
     <slot />
 
     <script>

@@ -150,3 +150,23 @@
 ---
 
 > Claude Code: registre abaixo cada nova alteração no mesmo formato (data, alterado, arquivos, motivo, próximo passo).
+
+---
+
+## 2026-07-20 — Fundo animado Constelação Atlas (Three.js)
+
+### Alterado
+
+- Adicionado fundo WebGL de partículas com morph por scroll (chevron → grafo → barras → orbe), intensidade sutil/corporativa. Ver Decisão 010.
+
+### Arquivos modificados
+
+- `src/scripts/constellation.ts` (novo), `src/components/BackgroundCanvas.astro` (novo), `src/layouts/Layout.astro`, `package.json`.
+
+### Motivo
+
+- Elevar o visual do site ("tecnológico/de ponta") sem perder aparência funcional, performance nem legibilidade.
+
+### Próximo passo
+
+- Rodar Lighthouse real (desktop+mobile) e ajustar densidade/opacidade se necessário. Avaliar linhas de conexão no estado "grafo" (v2).

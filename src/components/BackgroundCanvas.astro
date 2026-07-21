@@ -1,0 +1,44 @@
+---
+// Canvas de fundo da Constelação Atlas. Fixo atrás de todo o conteúdo (-z-10),
+// transparente, sem captura de eventos. O motor (three.js) só carrega e inicia
+// quando as guardas de performance passam — caso contrário fica o grid+glow CSS.
+---
+
+<div
+  id="bg-canvas-wrap"
+  class="pointer-events-none fixed inset-0 -z-10 opacity-0 transition-opacity duration-1000"
+  aria-hidden="true"
+>
+  <canvas id="bg-canvas" class="h-full w-full"></canvas>
+</div>
+
+<script>
+  const wrap = document.getElementById('bg-canvas-wrap');
+  const canvas = document.getElementById('bg-canvas') as HTMLCanvasElement | null;
+
+  // Guardas de performance / acessibilidade — em qualquer falha, não inicia.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const small = window.matchMedia('(max-width: 768px)').matches;
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const lowMem = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 2;
+  const noWebGL = (() => {
+    try {
+      const c = document.createElement('canvas');
+      return !(c.getContext('webgl2') || c.getContext('webgl'));
+    } catch {
+      return true;
+    }
+  })();
+
+  if (canvas && wrap && !reduce && !small && !lowMem && !noWebGL) {
+    // Import dinâmico: chunk separado, fora do critical path.
+    import('../scripts/constellation')
+      .then((m) => {
+        m.initConstellation(canvas);
+        wrap.classList.remove('opacity-0'); // fade-in suave após inicializar
+      })
+      .catch(() => {
+        /* silencioso — fallback é o fundo CSS já existente */
+      });
+  }
+</script>
