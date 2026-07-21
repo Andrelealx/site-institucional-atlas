@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import MobileMenu from './MobileMenu.tsx';
+import MobileMenu from './MobileMenu.astro';
 import { waLink } from '../config/site';
 
 const navLinks = [
@@ -37,7 +37,7 @@ const navLinks = [
       </a>
     </nav>
 
-    <MobileMenu client:load />
+    <MobileMenu />
   </div>
 </header>
 

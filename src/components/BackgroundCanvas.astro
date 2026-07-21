@@ -31,14 +31,24 @@
   })();
 
   if (canvas && wrap && !reduce && !lowMem && !noWebGL) {
-    // Import dinâmico: chunk separado, fora do critical path.
-    import('../scripts/constellation')
-      .then((m) => {
-        m.initConstellation(canvas);
-        wrap.classList.remove('opacity-0'); // fade-in suave após inicializar
-      })
-      .catch(() => {
-        /* silencioso — fallback é o fundo CSS já existente */
-      });
+    // Só carrega o three.js (chunk pesado) DEPOIS do load + quando a thread
+    // estiver ociosa. Assim não compete com a primeira pintura / interatividade.
+    const start = () =>
+      import('../scripts/constellation')
+        .then((m) => {
+          m.initConstellation(canvas);
+          wrap.classList.remove('opacity-0'); // fade-in suave após inicializar
+        })
+        .catch(() => {
+          /* silencioso — fallback é o fundo CSS já existente */
+        });
+
+    const idle = () =>
+      'requestIdleCallback' in window
+        ? (window as any).requestIdleCallback(start, { timeout: 2500 })
+        : setTimeout(start, 800);
+
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
   }
 </script>

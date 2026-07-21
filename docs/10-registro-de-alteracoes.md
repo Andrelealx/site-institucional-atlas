@@ -274,3 +274,26 @@
 ### Motivo
 
 - Cliente achou o gráfico "sem tecnologia", pediu hero melhor, revisão mobile e fundo branco nos logos Única/Golden.
+
+---
+
+## 2026-07-21 — Performance: JS fora do caminho crítico
+
+### Alterado
+
+- **Constelação (three.js, 117kb gz)** agora só carrega após o evento `load` + `requestIdleCallback` — não compete mais com a primeira pintura.
+- **MobileMenu** reescrito de React (`client:load`) para **Astro vanilla** (script inline). Era o que forçava o runtime React (44kb gz) no load inicial. ContactForm segue React mas `client:visible` (carrega só ao rolar até o formulário).
+- Removida a fonte **Space Grotesk 500** (não usada; títulos são bold/700).
+
+### Resultado (medido com puppeteer, 4G + CPU 4x)
+
+- JS carregado antes do `load`: **~160kb → 0.9kB**.
+- React e three.js totalmente fora do caminho crítico.
+
+### Arquivos modificados
+
+- `src/components/BackgroundCanvas.astro`, `src/components/MobileMenu.astro` (novo, substitui `.tsx`), `src/components/Header.astro`, `src/layouts/Layout.astro`.
+
+### Motivo
+
+- Cliente relatou lentidão no carregamento.

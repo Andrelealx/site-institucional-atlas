@@ -1,0 +1,80 @@
+---
+import { waLink } from '../config/site';
+
+const links = [
+  { label: 'Serviços', href: '#servicos' },
+  { label: 'Portfólio', href: '#portfolio' },
+  { label: 'Planos', href: '#planos' },
+  { label: 'Contato', href: '#contato' },
+];
+---
+
+<div class="md:hidden">
+  <button
+    type="button"
+    data-menu-toggle
+    aria-label="Abrir menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border-soft text-text-primary transition hover:border-brand/60"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="4" x2="20" y1="6" y2="6" />
+      <line x1="4" x2="20" y1="12" y2="12" />
+      <line x1="4" x2="20" y1="18" y2="18" />
+    </svg>
+  </button>
+
+  <div id="mobile-menu" data-menu-panel hidden class="fixed inset-0 z-50 bg-bg-base">
+    <div class="container-site flex h-16 items-center justify-end">
+      <button
+        type="button"
+        data-menu-close
+        aria-label="Fechar menu"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border-soft text-text-primary transition hover:border-brand/60"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </div>
+    <nav class="container-site flex flex-col gap-2 pt-8">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          data-menu-link
+          class="rounded-xl px-2 py-4 font-display text-2xl font-semibold text-text-primary transition hover:text-brand"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href={waLink()} target="_blank" rel="noopener noreferrer" data-menu-link class="btn-primary mt-4">
+        Falar no WhatsApp
+      </a>
+    </nav>
+  </div>
+</div>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  const linksEls = document.querySelectorAll<HTMLAnchorElement>('[data-menu-link]');
+
+  if (toggle && panel) {
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    toggle.addEventListener('click', () => setOpen(panel.hidden));
+    closeBtn?.addEventListener('click', () => setOpen(false));
+    linksEls.forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) setOpen(false);
+    });
+  }
+</script>
