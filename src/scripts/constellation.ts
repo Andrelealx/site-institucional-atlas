@@ -143,7 +143,7 @@ const FRAG = /* glsl */ `
 export function initConstellation(canvas: HTMLCanvasElement) {
   // Menos partículas em telas pequenas — mesma cena, custo menor.
   const isMobile = window.innerWidth <= 768;
-  COUNT = isMobile ? 650 : 1600;
+  COUNT = isMobile ? 450 : 1100;
   buildShapes();
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
@@ -199,74 +199,100 @@ export function initConstellation(canvas: HTMLCanvasElement) {
         if (!e.isIntersecting) continue;
         const idx = sections.indexOf(e.target);
         const key = SHAPE_CYCLE[Math.min(idx, SHAPE_CYCLE.length - 1)] || 'chevron';
-        target = SHAPES[key];
+        if (SHAPES[key] !== target) {
+          target = SHAPES[key];
+          wake(); // nova seção → acorda pra animar a transição
+        }
       }
     },
     { threshold: 0.4, rootMargin: '-20% 0px -40% 0px' }
   );
   sections.forEach((s) => sectionObserver.observe(s));
 
-  // Parallax leve com o mouse (desktop).
+  // Parallax leve com o mouse (desktop) — acorda o loop por um instante.
   let mx = 0;
   let my = 0;
+  let pointerActiveUntil = 0;
   window.addEventListener(
     'pointermove',
     (e) => {
       mx = (e.clientX / window.innerWidth - 0.5) * 0.3;
       my = (e.clientY / window.innerHeight - 0.5) * 0.3;
+      pointerActiveUntil = performance.now() + 500;
+      wake();
     },
     { passive: true }
   );
 
   // -------------------------------------------------------------------------
-  // Loop — pausa quando a aba está oculta ou o canvas sai da viewport.
+  // Loop com "assentamento": renderiza só durante transições de morph ou quando
+  // o mouse mexe; quando a cena está parada, dorme (custo de CPU ~zero). Cap de
+  // 30fps. Isso mantém a main thread livre — crítico para performance.
   // -------------------------------------------------------------------------
-  let running = true;
+  let running = false;
   let raf = 0;
-  const clock = new THREE.Clock();
+  let lastFrame = 0;
+  let visible = true;
+  const FRAME_MS = 1000 / 30;
 
-  function frame() {
+  function tick(now: number) {
     if (!running) return;
-    const t = clock.getElapsedTime();
-    mat.uniforms.uTime.value = t;
+    raf = requestAnimationFrame(tick);
+    if (now - lastFrame < FRAME_MS) return;
+    lastFrame = now;
 
-    // morph: interpola posição atual em direção ao alvo da seção
+    mat.uniforms.uTime.value = now / 1000;
+
+    // morph — mede o quanto ainda falta pro alvo
     const arr = posAttr.array as Float32Array;
+    let maxD = 0;
     for (let i = 0; i < arr.length; i++) {
-      arr[i] += (target[i] - arr[i]) * 0.045;
+      const d = target[i] - arr[i];
+      arr[i] += d * 0.06;
+      const ad = d < 0 ? -d : d;
+      if (ad > maxD) maxD = ad;
     }
-    posAttr.needsUpdate = true;
+    const morphing = maxD > 0.004;
+    if (morphing) posAttr.needsUpdate = true; // só sobe pra GPU enquanto muda
 
-    // rotação lenta + parallax do mouse
-    group.rotation.y += 0.0006;
-    group.rotation.x += (my - group.rotation.x) * 0.03;
-    group.rotation.z += (mx * 0.4 - group.rotation.z) * 0.03;
+    group.rotation.x += (my - group.rotation.x) * 0.04;
+    group.rotation.z += (mx * 0.4 - group.rotation.z) * 0.04;
+    if (morphing) group.rotation.y += 0.001;
 
     renderer.render(scene, camera);
-    raf = requestAnimationFrame(frame);
+
+    // parou de mudar e o mouse está quieto → dorme
+    if (!morphing && now >= pointerActiveUntil) stop();
   }
 
+  function wake() {
+    if (!visible) return;
+    pointerActiveUntil = Math.max(pointerActiveUntil, performance.now() + 120);
+    start();
+  }
   function start() {
     if (running) return;
     running = true;
-    clock.start();
-    frame();
+    lastFrame = 0;
+    raf = requestAnimationFrame(tick);
   }
   function stop() {
     running = false;
     cancelAnimationFrame(raf);
   }
 
-  // Pausa quando a aba fica oculta.
+  // Pausa total quando a aba fica oculta.
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop();
-    else start();
+    visible = !document.hidden;
+    if (visible) wake();
+    else stop();
   });
 
   // Pausa quando o canvas sai da tela (não deveria com fixed, mas garante).
   const canvasObserver = new IntersectionObserver(
     ([entry]) => {
-      if (entry.isIntersecting) start();
+      visible = entry.isIntersecting;
+      if (visible) wake();
       else stop();
     },
     { threshold: 0 }
@@ -281,9 +307,9 @@ export function initConstellation(canvas: HTMLCanvasElement) {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight, false);
+      wake();
     }, 150);
   });
 
-  running = false;
   start();
 }

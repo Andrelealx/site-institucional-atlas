@@ -43,12 +43,23 @@
           /* silencioso — fallback é o fundo CSS já existente */
         });
 
-    const idle = () =>
-      'requestIdleCallback' in window
-        ? (window as any).requestIdleCallback(start, { timeout: 2500 })
-        : setTimeout(start, 800);
-
-    if (document.readyState === 'complete') idle();
-    else window.addEventListener('load', idle, { once: true });
+    // Carrega o three.js (chunk pesado) só na PRIMEIRA interação do usuário —
+    // scroll, mouse ou toque. Mantém o carregamento inicial leve; quem não
+    // interage recebe o fundo via fallback ocioso mais tarde.
+    let triggered = false;
+    const evs = ['pointermove', 'scroll', 'touchstart', 'wheel', 'keydown'] as const;
+    const cleanup = () => evs.forEach((e) => window.removeEventListener(e, trigger));
+    function trigger() {
+      if (triggered) return;
+      triggered = true;
+      cleanup();
+      start();
+    }
+    evs.forEach((e) => window.addEventListener(e, trigger, { once: true, passive: true }));
+    // Fallback: sessão sem interação nenhuma recebe o fundo depois de ocioso.
+    setTimeout(() => {
+      if ('requestIdleCallback' in window) (window as any).requestIdleCallback(trigger, { timeout: 2000 });
+      else trigger();
+    }, 6000);
   }
 </script>

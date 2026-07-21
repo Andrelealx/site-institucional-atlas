@@ -297,3 +297,27 @@
 ### Motivo
 
 - Cliente relatou lentidão no carregamento.
+
+---
+
+## 2026-07-21 — Lighthouse 100 (mobile) + constelação mais leve + imagens
+
+### Alterado
+
+- **Constelação**: carrega só na 1ª interação do usuário (scroll/mouse/touch) com fallback ocioso; loop reescrito com cap de 30fps e "assentamento" (dorme quando a cena para — custo de CPU ~zero em repouso); partículas reduzidas (1100 desktop / 450 mobile); upload de buffer só durante o morph.
+- **Imagens de parceiros** reduzidas a ~110px (avatares exibidos a 44px) e originais não usados removidos — de ~250kb para ~74kb no total.
+- **A11y**: `alt=""` nos avatares (nome já visível ao lado) — corrige aviso de alt redundante.
+
+### Resultado (Lighthouse, build de produção)
+
+- **Mobile: Performance 100 · A11y 100 · Best Practices 100 · SEO 100**
+- Desktop: Performance 91 · A11y 100 · BP 100 · SEO 100
+- FCP/LCP ~1.4s, TBT 0ms, TTI ~1.5s.
+
+### Nota de verificação (importante)
+
+- Lighthouse/puppeteer headless com `--use-angle=swiftshader` **infla o TBT para ~6s** (artefato de WebGL por software). Medir performance SEM flags de GL; usar os flags só para screenshots visuais do WebGL.
+
+### Arquivos modificados
+
+- `src/scripts/constellation.ts`, `src/components/BackgroundCanvas.astro`, `src/components/Partners.astro`, `public/images/partners/*`.
