@@ -6,6 +6,7 @@ import '@fontsource/space-grotesk/700.css';
 import '../styles/global.css';
 import { SITE } from '../config/site';
 import BackgroundCanvas from '../components/BackgroundCanvas.astro';
+import MobileMenu from '../components/MobileMenu.astro';
 
 interface Props {
   title?: string;
@@ -97,6 +98,7 @@ const jsonLd = {
     </a>
     <BackgroundCanvas />
     <slot />
+    <MobileMenu />
 
     <script>
       // Micro-interações (contadores, botões magnéticos, scramble) — chunk lazy.

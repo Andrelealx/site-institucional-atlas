@@ -369,3 +369,28 @@ experiência real sofria.
 ### Arquivos modificados
 
 - `src/scripts/constellation.ts` (reescrito), `src/components/BackgroundCanvas.astro`, `package.json`.
+
+---
+
+## 2026-07-21 — Fix: menu mobile transparente ao abrir rolado
+
+### Problema
+
+Abrindo o menu com a página rolada, o painel cobria só a faixa do header (64px) e
+o resto ficava transparente (seção aparecia atrás). Causa: o `backdrop-blur` que o
+header ganha ao rolar cria containing block para descendentes `position:fixed`, e o
+painel do menu era filho do header → `inset-0` passava a valer a caixa do header.
+
+### Alterado
+
+- Painel do menu movido para o nível do `body` (montado em `Layout.astro`, fora do
+  `<header>`). O botão hambúrguer permanece no header (`data-menu-toggle`); painel e
+  botão se comunicam pelo script via `data-*`. Mantém o blur do header.
+
+### Arquivos modificados
+
+- `src/components/MobileMenu.astro` (só o painel agora), `src/components/Header.astro` (botão inline), `src/layouts/Layout.astro`.
+
+### Verificado
+
+- Painel aberto rolado = viewport inteira (390×844), opaco, mesmo com blur do header ativo.
