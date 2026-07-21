@@ -216,3 +216,24 @@
 ### Próximo passo
 
 - **PENDÊNCIA**: confirmar os 4 números em `src/data/stats.ts` (hoje são valores editáveis/defensáveis, não medidos).
+
+---
+
+## 2026-07-20 — Logos reais de parceiros + logo oficial da marca
+
+### Alterado
+
+- **Parceiros**: 12 logos reais integrados (marquee como chips de avatar arredondado + nome; lida com qualquer fundo). Imagens redimensionadas p/ ~220px em `public/images/partners/`. Dados em `src/data/partners.ts`.
+- **Marca**: header e footer agora usam o lockup oficial (`public/images/atlas-logo.svg` — versão negativa: chevron lime arredondado + texto branco). Favicon trocado pelo símbolo oficial (`public/favicon.svg`). Kit completo em `midias/ATLAS_Marca_Grafica/`.
+
+### Arquivos modificados
+
+- `src/data/partners.ts`, `src/components/Partners.astro`, `src/components/Logo.astro`, `public/favicon.svg`, `public/images/atlas-logo.svg` (novo), `public/images/partners/*` (12 novos), `midias/ATLAS_Marca_Grafica/*`, `midias/logo_parceiros/*`.
+
+### Motivo
+
+- Cliente forneceu identidade visual oficial e a pasta de logos de parceiros.
+
+### Próximo passo
+
+- Confirmar nomes/ordem dos parceiros em `partners.ts`. Trocar `og-atlas.png` pela arte social oficial se houver.

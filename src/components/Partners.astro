@@ -1,7 +1,6 @@
 ---
 import { partners } from '../data/partners';
 
-// Sem logos reais ainda → mostra placeholders neutros pra visualizar o layout.
 const hasReal = partners.length > 0;
 const items = hasReal
   ? partners
@@ -19,42 +18,49 @@ const loop = [...items, ...items];
 
     <div class="marquee mt-8" data-reveal>
       <ul class="marquee__track" role="list">
-        {loop.map((p, i) => (
-          <li class="marquee__item" aria-hidden={i >= items.length ? 'true' : undefined}>
-            {p.src ? (
+        {loop.map((p, i) => {
+          const inner = p.src ? (
+            <span class="partner-chip">
               <img
                 src={p.src}
                 alt={p.name}
                 loading="lazy"
                 decoding="async"
-                class="partner-logo h-8 w-auto max-w-[150px] object-contain"
+                width="44"
+                height="44"
+                class="partner-avatar"
               />
-            ) : (
-              <span class="partner-placeholder">
-                <svg viewBox="0 0 100 100" class="h-6 w-6 shrink-0" aria-hidden="true">
-                  <path d="M50 24 L74 46 L64 46 L50 33 L36 46 L26 46 Z" fill="currentColor" />
-                  <path d="M50 44 L74 66 L64 66 L50 53 L36 66 L26 66 Z" fill="currentColor" />
-                </svg>
-                <span class="text-sm font-semibold tracking-wide">{p.name}</span>
-              </span>
-            )}
-          </li>
-        ))}
+              <span class="partner-name">{p.name}</span>
+            </span>
+          ) : (
+            <span class="partner-chip">
+              <svg viewBox="0 0 100 100" class="partner-avatar p-2 text-text-secondary" aria-hidden="true">
+                <path d="M50 24 L74 46 L64 46 L50 33 L36 46 L26 46 Z" fill="currentColor" />
+                <path d="M50 44 L74 66 L64 66 L50 53 L36 66 L26 66 Z" fill="currentColor" />
+              </svg>
+              <span class="partner-name">{p.name}</span>
+            </span>
+          );
+          return (
+            <li class="marquee__item" aria-hidden={i >= items.length ? 'true' : undefined}>
+              {p.url ? (
+                <a href={p.url} target="_blank" rel="noopener noreferrer" aria-label={p.name}>
+                  {inner}
+                </a>
+              ) : (
+                inner
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
-
-    {!hasReal && (
-      <p class="mt-6 text-center text-xs text-text-secondary/60">
-        Placeholders — troque pelos logos reais em <code>src/data/partners.ts</code>.
-      </p>
-    )}
   </div>
 </section>
 
 <style>
   .marquee {
     overflow: hidden;
-    /* Esfuma as bordas laterais. */
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
@@ -62,37 +68,46 @@ const loop = [...items, ...items];
     display: flex;
     width: max-content;
     align-items: center;
-    gap: 3.5rem;
-    animation: marquee 32s linear infinite;
+    gap: 1.25rem;
+    animation: marquee 42s linear infinite;
   }
   .marquee:hover .marquee__track {
     animation-play-state: paused;
   }
   .marquee__item {
-    display: flex;
-    align-items: center;
     flex: 0 0 auto;
+  }
+  .partner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.4rem 1.1rem 0.4rem 0.4rem;
+    border: 1px solid #262a33;
+    border-radius: 9999px;
+    background: rgba(22, 24, 29, 0.6);
+    white-space: nowrap;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  .marquee__item:hover .partner-chip {
+    border-color: rgba(200, 241, 53, 0.45);
+    background: rgba(22, 24, 29, 0.9);
+  }
+  .partner-avatar {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #0a0b0d;
+  }
+  .partner-name {
+    font-size: 0.875rem;
+    font-weight: 600;
     color: #9ca3af;
     transition: color 0.3s ease;
   }
-  .marquee__item:hover {
+  .marquee__item:hover .partner-name {
     color: #f4f5f7;
-  }
-  .partner-placeholder {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    white-space: nowrap;
-  }
-  /* Logos reais entram monocromáticos e ganham cor/opacidade no hover. */
-  .partner-logo {
-    filter: grayscale(1) brightness(1.6);
-    opacity: 0.6;
-    transition: filter 0.3s ease, opacity 0.3s ease;
-  }
-  .marquee__item:hover .partner-logo {
-    filter: none;
-    opacity: 1;
   }
   @media (prefers-reduced-motion: reduce) {
     .marquee {
@@ -103,10 +118,9 @@ const loop = [...items, ...items];
       animation: none;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2.5rem 3rem;
+      gap: 1rem;
       width: 100%;
     }
-    /* Sem animação, a segunda cópia vira duplicata visível — esconde. */
     .marquee__item[aria-hidden='true'] {
       display: none;
     }

@@ -1,7 +1,8 @@
 ---
 /**
- * Lockup horizontal oficial: símbolo chevron lime + "Atlas" + "TECNOLOGIAS".
- * Símbolo idêntico ao de /midias/logo/atlas-mark-lime.svg.
+ * Lockup horizontal oficial da marca (chevron lime + "Atlas TECNOLOGIAS"),
+ * versão negativa (texto branco) — para uso sobre fundo escuro.
+ * Arquivo: /public/images/atlas-logo.svg (kit oficial ATLAS_Marca_Grafica).
  */
 interface Props {
   class?: string;
@@ -9,24 +10,10 @@ interface Props {
 const { class: className = '' } = Astro.props;
 ---
 
-<span class={`inline-flex items-center gap-2.5 ${className}`}>
-  <svg
-    viewBox="0 0 100 100"
-    class="h-8 w-8 shrink-0"
-    role="img"
-    aria-label="Atlas Tecnologias"
-  >
-    <path d="M50 20 L78 46 L68 46 L50 30 L32 46 L22 46 Z" fill="#C8F135" />
-    <path d="M50 42 L78 68 L68 68 L50 52 L32 68 L22 68 Z" fill="#C8F135" />
-  </svg>
-  <span class="flex flex-col leading-none">
-    <span class="font-display text-lg font-bold tracking-tight text-text-primary">
-      Atlas
-    </span>
-    <span
-      class="text-[0.6rem] font-medium uppercase tracking-[0.28em] text-text-secondary"
-    >
-      Tecnologias
-    </span>
-  </span>
-</span>
+<img
+  src="/images/atlas-logo.svg"
+  alt="Atlas Tecnologias"
+  width="120"
+  height="40"
+  class={`h-9 w-auto sm:h-10 ${className}`}
+/>

@@ -1,0 +1,52 @@
+ATLAS TECNOLOGIAS — PACOTE DE MARCA PARA GRAFICA / FACHADA ACM
+================================================================
+CNPJ 67.276.955/0001-47 · Guapimirim/RJ · atlastecnologias.com.br
+
+COMECE POR AQUI
+---------------
+Leia o arquivo "00_Manual_da_Marca_ACM.pdf" — ele traz as cores (com Pantone),
+a tipografia, as versoes do logo e as instrucoes de producao em ACM.
+
+O QUE MANDAR PARA A GRAFICA
+---------------------------
+Use SEMPRE os arquivos vetoriais (.PDF, .SVG ou .EPS). O texto ja esta
+convertido em CURVAS — a grafica nao precisa instalar nenhuma fonte.
+Os .PNG (fundo transparente, alta resolucao) servem so para conferencia.
+
+ESTRUTURA DAS PASTAS
+--------------------
+00_Manual_da_Marca_ACM.pdf   Manual completo (leia primeiro)
+
+01_Simbolo/                  Simbolo isolado (chevron duplo)
+   atlas_simbolo_lime        cor principal (#C8F135)
+   atlas_simbolo_preto       monocromatico preto (recorte/letra-caixa)
+   atlas_simbolo_branco      para fundos escuros
+
+02_Lockup_Horizontal/        Simbolo + "Atlas TECNOLOGIAS" (lado a lado)
+   atlas_horizontal_principal   simbolo lime + texto preto  → fundo CLARO
+   atlas_horizontal_negativa    simbolo lime + texto branco → fundo ESCURO
+   atlas_horizontal_preto       tudo preto  → recorte/gravacao
+   atlas_horizontal_branco      tudo branco → fundo escuro / vinil branco
+
+03_Lockup_Vertical/          Mesma marca, simbolo em cima do texto
+   (mesmas 4 versoes do horizontal)
+
+04_App_Icons/                Icone de app / favicon / perfil de redes
+   icon_fundo_preto, icon_fundo_lime, icon_simbolo_transparente
+
+05_Fonte_Syne/               Fonte da marca (Syne) + licenca OFL
+   (so necessaria para criar NOVOS materiais; os logos ja vem em curvas)
+
+CADA ITEM VEM EM:  .SVG  .PDF  .EPS  .PNG   (icones: .SVG .PDF .PNG)
+
+CORES (resumo)
+--------------
+LIME    HEX #C8F135   RGB 200/241/53   Pantone 389 C (aprox.) / 802 C neon
+PRETO   HEX #111111   CMYK K100
+BRANCO  HEX #FFFFFF
+
+ATENCAO: o verde-lima e quase fluorescente e NAO sai fiel em CMYK comum.
+Para fachada, peca correspondencia em PANTONE ou vinil de cor solida e
+confira em leque fisico antes de produzir.
+
+Em caso de duvida, fale com a Atlas pelo atlastecnologias.com.br
