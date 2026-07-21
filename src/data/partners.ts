@@ -20,7 +20,7 @@ export const partners: Partner[] = [
   { name: 'Dona Deli', src: '/images/partners/dona-deli.jpg' },
   { name: 'Vibra Gastronomia', src: '/images/partners/vibra-gastronomia.webp' },
   { name: 'Vila Belém', src: '/images/partners/vila-belem.jpg' },
-  { name: 'Golden Express', src: '/images/partners/golden-express.avif' },
+  { name: 'Golden Express', src: '/images/partners/golden-express.png' },
   { name: 'HJ Segurança', src: '/images/partners/hj-seguranca.webp' },
   { name: 'Judô Marins', src: '/images/partners/judo-marins.jpg' },
   { name: 'Special Art', src: '/images/partners/special-art.png' },

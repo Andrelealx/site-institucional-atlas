@@ -255,3 +255,22 @@
 ### Motivo
 
 - Mais profundidade/ritmo visual (pedido do cliente) e correção de contraste do logo da Única.
+
+---
+
+## 2026-07-21 — Hero novo (fluxo de automação) + fixes de logo/mobile
+
+### Alterado
+
+- **Hero repaginado**: gráfico de barras substituído por **fluxo de automação** (`AutomationFlow.astro`): Cliente → WhatsApp → Atlas (hub lime) → Site/Venda, com pulso lime correndo pelos fios e selo "ao vivo". Comunica o que a Atlas faz. Agora aparece também no mobile.
+- **Logos**: Golden Express (fundo transparente → composto sobre branco) e Única (já corrigida) agora legíveis. `golden-express.png`.
+- **Mobile revisado**: confirmado via emulação real (puppeteer) que não há overflow horizontal (docW==winW==390); cortes anteriores eram artefato de screenshot headless sem emulação de viewport. Constelação confirmada rodando no mobile.
+- Parallax removido do glow do hero (conflitava com a centralização).
+
+### Arquivos modificados
+
+- `src/components/AutomationFlow.astro` (novo), `src/components/Hero.astro`, `src/data/partners.ts`, `public/images/partners/golden-express.png` (novo), `public/images/partners/unica-servicos.png`.
+
+### Motivo
+
+- Cliente achou o gráfico "sem tecnologia", pediu hero melhor, revisão mobile e fundo branco nos logos Única/Golden.
