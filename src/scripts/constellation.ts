@@ -211,7 +211,7 @@ export function initConstellation(canvas: HTMLCanvasElement) {
       const ad = Math.abs(dx) + Math.abs(dy);
       if (ad > maxD) maxD = ad;
 
-      ctx.globalAlpha = 0.38;
+      ctx.globalAlpha = 0.22;
       ctx.drawImage(sprite, cur[i * 2] - half, cur[i * 2 + 1] - half);
     }
     ctx.globalAlpha = 1;
