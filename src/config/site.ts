@@ -10,7 +10,7 @@
 /**
  * Número de WhatsApp no formato internacional, só dígitos: 55 + DDD + número.
  */
-export const WHATSAPP_NUMBER = '5521988798777';
+export const WHATSAPP_NUMBER = '5521992565057';
 
 /** Mensagem pré-preenchida ao abrir o WhatsApp. */
 export const WHATSAPP_MESSAGE =
