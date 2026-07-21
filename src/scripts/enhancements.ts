@@ -99,10 +99,37 @@ function scramble() {
   });
 }
 
+/** Parallax de scroll — elementos [data-parallax] deslizam em velocidades diferentes. */
+function parallax() {
+  const els = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+  if (!els.length) return;
+  let ticking = false;
+  const update = () => {
+    const y = window.scrollY;
+    for (const el of els) {
+      const s = parseFloat(el.dataset.parallax || '0');
+      el.style.transform = `translate3d(0, ${(y * s).toFixed(1)}px, 0)`;
+    }
+    ticking = false;
+  };
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
 export function initEnhancements() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
   countUp(reduce);
   if (!reduce && finePointer) magnetic();
   if (!reduce) scramble();
+  if (!reduce) parallax();
 }

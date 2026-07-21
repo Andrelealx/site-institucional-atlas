@@ -16,7 +16,7 @@ export interface Partner {
 
 export const partners: Partner[] = [
   { name: 'CT Quebrando Limites', src: '/images/partners/ct-quebrando-limites.png' },
-  { name: 'Única Serviços', src: '/images/partners/unica-servicos.jpg' },
+  { name: 'Única Serviços', src: '/images/partners/unica-servicos.png' },
   { name: 'Dona Deli', src: '/images/partners/dona-deli.jpg' },
   { name: 'Vibra Gastronomia', src: '/images/partners/vibra-gastronomia.webp' },
   { name: 'Vila Belém', src: '/images/partners/vila-belem.jpg' },

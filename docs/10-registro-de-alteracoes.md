@@ -237,3 +237,21 @@
 ### Próximo passo
 
 - Confirmar nomes/ordem dos parceiros em `partners.ts`. Trocar `og-atlas.png` pela arte social oficial se houver.
+
+---
+
+## 2026-07-20 — Divisores animados + parallax no hero + fix logo Única
+
+### Alterado
+
+- **Divisores animados** (`src/components/Divider.astro`): linha gradiente lime + ponto que "desenha" ao entrar na viewport. Inseridos entre Portfólio/Planos/Diferenciais.
+- **Parallax no hero** (`enhancements.ts` → `parallax()`): janela mock, badge flutuante e glow deslizam em velocidades diferentes no scroll (profundidade em camadas). Desativado em reduced-motion.
+- **Logo Única Serviços**: fundo preto do JPG removido e recomposto sobre branco (`unica-servicos.png`) — antes sumia no fundo escuro.
+
+### Arquivos modificados
+
+- `src/components/Divider.astro` (novo), `src/styles/global.css`, `src/pages/index.astro`, `src/scripts/enhancements.ts`, `src/components/Hero.astro`, `src/data/partners.ts`, `public/images/partners/unica-servicos.png` (novo).
+
+### Motivo
+
+- Mais profundidade/ritmo visual (pedido do cliente) e correção de contraste do logo da Única.
