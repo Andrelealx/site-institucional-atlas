@@ -321,3 +321,21 @@
 ### Arquivos modificados
 
 - `src/scripts/constellation.ts`, `src/components/BackgroundCanvas.astro`, `src/components/Partners.astro`, `public/images/partners/*`.
+
+---
+
+## 2026-07-21 — Navbar mobile revisada (menu + safe-area)
+
+### Alterado
+
+- **Menu mobile repaginado**: overlay agora espelha o header (logo + botão fechar), links grandes com divisórias e seta, animação escalonada de entrada, CTA WhatsApp full-width e região no rodapé — antes ficava vazio/sem acabamento.
+- **Safe-area (notch)**: `env(safe-area-inset-top)` no header e no topo do menu; `safe-area-inset-bottom` no rodapé do menu.
+- **Abrir/fechar robusto**: toggle por classe `is-open` (permite animação), init tolerante a timing do DOM. Verificado: abre (trava scroll do body), fecha por X, por link e por Esc.
+
+### Arquivos modificados
+
+- `src/components/MobileMenu.astro`, `src/components/Header.astro`.
+
+### Motivo
+
+- Cliente relatou navbar mobile "quebrada": menu sem acabamento, dúvida sobre abrir/fechar e header sob o notch.
