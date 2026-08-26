@@ -3,8 +3,8 @@
 ## Pendente
 
 - [ ] Substituir placeholders de contato em `src/config/site.ts` (WhatsApp, e-mail, Instagram, FORM_ENDPOINT) — depende do cliente
-- [ ] Substituir projetos placeholder por cases reais (`src/data/projects.ts`) — depende do cliente
-- [ ] Adicionar imagens finais em `public/images/` (portfólio + `og-atlas.png`) — depende do cliente
+- [ ] Adicionar mais cases ao portfólio (`src/data/projects.ts`) quando o cliente enviar novos sites
+- [ ] Adicionar imagem final `og-atlas.png` — depende do cliente
 - [ ] Revisar/aprovar texto definitivo da Política de Privacidade — depende do cliente
 - [ ] Definir domínio e fazer deploy (host estático + HTTPS)
 - [ ] (Opcional) Plugar Analytics/Pixel
@@ -49,3 +49,20 @@
 - [x] Skip-to-content (acessibilidade)
 - [x] Página 404 com a marca
 - [x] Componente de prova social (estrutura, aguardando depoimentos reais)
+- [x] Portfólio expandido com 6 cases reais (prints dos sites no ar) — 2026-08-25
+
+## Fase 1 — Fundação de Tráfego Pago (2026-07-21)
+
+- [x] Variáveis de ambiente (`.env` + `.env.example`): `META_DATASET_ID`, `WHATSAPP_E164`
+- [x] Meta Pixel base code gated por consentimento (`src/components/MetaPixel.astro`)
+- [x] API global de eventos (`atlasTrack`, `AtlasConsent`, delegação `[data-fb-event]`)
+- [x] Evento `PageView` (automático no init do Pixel, pós-consentimento)
+- [x] Evento `ViewContent` (load da landing Expert)
+- [x] Evento `Lead` (clique WhatsApp da landing — 3 CTAs)
+- [x] Evento `Contact` (WhatsApp de header, footer e botão flutuante)
+- [x] Banner de consentimento LGPD (`src/components/CookieConsent.astro`) com persistência
+- [x] Landing `/expert-dentistas` (hero, dor, solução, oferta, prova, CTA final) — faceless, identidade Atlas
+- [x] Build sem erros + verificação do HTML gerado (sem ID hardcoded, sem vazamento Blueprint)
+- [ ] **BLOQUEANTE:** André fornecer `META_DATASET_ID` (sem ele o Pixel não sobe)
+- [ ] Validar no Test Events / Meta Pixel Helper (depende do ID)
+- [ ] Ativar Meta-enabled CAPI no Events Manager (ação do André, pós-validação)

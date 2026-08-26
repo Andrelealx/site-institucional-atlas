@@ -1,0 +1,60 @@
+---
+// Banner de consentimento LGPD — bloqueia o Meta Pixel até o aceite.
+// Aceitar → window.AtlasConsent.grant() (carrega o Pixel + libera eventos).
+// Recusar → window.AtlasConsent.deny() (nada carrega; site funciona normal).
+// A escolha fica em localStorage e o banner não reaparece.
+---
+
+<div
+  id="cookie-consent"
+  data-cookie-consent
+  role="dialog"
+  aria-label="Consentimento de cookies"
+  aria-live="polite"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-[70] px-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] pt-0"
+>
+  <div
+    class="container-site mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border border-border-soft bg-bg-surface/95 p-5 shadow-glow-sm backdrop-blur-md sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p class="text-sm leading-relaxed text-text-secondary">
+      Usamos cookies de marketing (Meta) para medir e melhorar nossos anúncios.
+      Você decide. Veja a
+      <a href="/politica-de-privacidade" class="text-brand hover:underline">
+        Política de Privacidade</a
+      >.
+    </p>
+    <div class="flex shrink-0 gap-3">
+      <button type="button" data-cookie-deny class="btn-secondary px-4 py-2 text-sm">
+        Recusar
+      </button>
+      <button type="button" data-cookie-accept class="btn-primary px-4 py-2 text-sm">
+        Aceitar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var LS_KEY = 'atlas_consent_marketing';
+    var el = document.querySelector('[data-cookie-consent]');
+    if (!el) return;
+
+    // já decidiu → nunca mostra
+    if (localStorage.getItem(LS_KEY)) return;
+    el.hidden = false;
+
+    function close() {
+      el.hidden = true;
+    }
+    el.querySelector('[data-cookie-accept]').addEventListener('click', function () {
+      if (window.AtlasConsent) window.AtlasConsent.grant();
+      close();
+    });
+    el.querySelector('[data-cookie-deny]').addEventListener('click', function () {
+      if (window.AtlasConsent) window.AtlasConsent.deny();
+      close();
+    });
+  })();
+</script>

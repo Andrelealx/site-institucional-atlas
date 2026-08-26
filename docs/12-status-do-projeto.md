@@ -30,7 +30,9 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
 - [ ] @ do Instagram (e outras redes) → `src/config/site.ts` (`INSTAGRAM`)
 - [x] ~~Endpoint do formulário~~ → resolvido: form abre o WhatsApp com os dados (sem backend)
-- [x] ~~Projetos reais do portfólio~~ → CT Quebrando Limites + Suporte Única, com prints reais
+- [x] ~~Projetos reais do portfólio~~ → 8 cases com prints reais: CT Quebrando Limites,
+      Suporte Única, Top Chalés RJ, HJ Segurança, Judô Marins, Viajei Assim,
+      Grupo Golden Express, Rafa Guttierrez. Cliente vai enviar mais depois.
 - [x] ~~Planos & preços~~ → seção `#planos` implementada (4 planos oficiais)
 - [ ] Imagem social `og-atlas.png` final → `public/images/` (há placeholder)
 - [x] ~~Logo~~ — RECEBIDO (Atlas Tecnologias, em /midias/logo)
@@ -38,7 +40,12 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [ ] Decidir se exibe endereço/mapa
 - [ ] Texto definitivo da política de privacidade (há baseline LGPD no ar)
 - [ ] Prazo de entrega
-- [ ] Analytics/Pixel (opcional)
+- [ ] Analytics/Pixel (opcional) — Meta Pixel já IMPLEMENTADO; falta o `META_DATASET_ID`
+- [ ] **[BLOQUEANTE Fase 1] `META_DATASET_ID`**: André pega no Events Manager → Connect Data
+      → Web e coloca no `.env` (deploy). Sem ele o Pixel não carrega e o Test Events não valida.
+- [ ] Depoimento real de dentista para a landing `/expert-dentistas` (há placeholder no ar)
+- [ ] Ação do André pós-fase: ativar Meta-enabled CAPI; publicar política definitiva; guardar
+      o `META_DATASET_ID` em cofre de credenciais
 - [ ] Depoimentos reais (nome, negócio, texto) → preencher array em `src/components/SocialProof.astro` (seção já ligada, oculta enquanto vazia)
 
 ## Observações

@@ -1,0 +1,96 @@
+---
+// Meta Pixel — base code gated por consentimento LGPD.
+// O ID vem de env (META_DATASET_ID), nunca hardcoded. Vazio = não carrega.
+// Expõe uma pequena API global usada pelo banner de cookies e pelos eventos:
+//   window.initMetaPixel()            → carrega o Pixel + PageView (idempotente)
+//   window.atlasTrack(name, params)   → dispara evento respeitando o consentimento
+//   window.AtlasConsent.grant/deny/state
+// Delegação de clique: qualquer elemento [data-fb-event="Nome"] dispara o evento.
+import { META_DATASET_ID } from '../config/site';
+---
+
+<script is:inline define:vars={{ datasetId: META_DATASET_ID }}>
+  (function () {
+    var LS_KEY = 'atlas_consent_marketing';
+    var queue = (window.__atlasQueue = window.__atlasQueue || []);
+
+    function loadPixel() {
+      if (window.__metaPixelLoaded) return;
+      if (!datasetId) return; // sem ID → fundação pronta, mas Pixel não sobe
+      /* base code padrão fbq (Meta) */
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+      window.fbq('init', datasetId);
+      window.fbq('track', 'PageView');
+      window.__metaPixelLoaded = true;
+
+      // esvazia eventos que ficaram na fila antes do consentimento
+      while (queue.length) {
+        var a = queue.shift();
+        try {
+          window.fbq('track', a[0], a[1] || {});
+        } catch (e) {}
+      }
+    }
+
+    window.initMetaPixel = loadPixel;
+
+    window.atlasTrack = function (name, params) {
+      if (!name) return;
+      if (window.__metaPixelLoaded && window.fbq) {
+        try {
+          window.fbq('track', name, params || {});
+        } catch (e) {}
+        return;
+      }
+      var st = localStorage.getItem(LS_KEY);
+      if (st === 'denied') return; // sem tracking
+      queue.push([name, params]); // aceito-mas-não-pronto ou ainda-sem-decisão
+      if (st === 'granted') loadPixel();
+    };
+
+    window.AtlasConsent = {
+      grant: function () {
+        localStorage.setItem(LS_KEY, 'granted');
+        loadPixel();
+      },
+      deny: function () {
+        localStorage.setItem(LS_KEY, 'denied');
+        window.__atlasQueue.length = 0; // descarta o que estava na fila
+      },
+      state: function () {
+        return localStorage.getItem(LS_KEY);
+      },
+    };
+
+    // visitante recorrente que já aceitou → carrega sem re-perguntar
+    if (localStorage.getItem(LS_KEY) === 'granted') loadPixel();
+
+    // eventos declarativos: [data-fb-event="Lead|Contact|..."]
+    document.addEventListener(
+      'click',
+      function (ev) {
+        var t = ev.target;
+        var el = t && t.closest ? t.closest('[data-fb-event]') : null;
+        if (!el) return;
+        window.atlasTrack(el.getAttribute('data-fb-event'));
+      },
+      true
+    );
+  })();
+</script>

@@ -12,9 +12,19 @@
  */
 export const WHATSAPP_NUMBER = '5521992565057';
 
+/** Número em E.164, só dígitos (alias explícito p/ links wa.me e tráfego pago). */
+export const WHATSAPP_E164 = WHATSAPP_NUMBER;
+
 /** Mensagem pré-preenchida ao abrir o WhatsApp. */
 export const WHATSAPP_MESSAGE =
   'Olá! Vim pelo site da Atlas e gostaria de saber mais.';
+
+/**
+ * ID do Meta Pixel (chamado "dataset" no Events Manager 2026).
+ * Lido de env — NUNCA hardcode o número aqui. Vazio = Pixel não carrega
+ * (pendência bloqueante: André precisa fornecer). Ver docs/07-integracoes.md.
+ */
+export const META_DATASET_ID = import.meta.env.META_DATASET_ID ?? '';
 
 /** E-mail oficial de contato. */
 export const EMAIL = 'contato@atlastecnologias.com.br';
@@ -36,9 +46,9 @@ export const SITE = {
   cnpj: '67.276.955/0001-47',
   tagline: 'Sites, sistemas e automações para negócios locais',
   description:
-    'A Atlas constrói a estrutura digital do seu negócio local — sites que convertem, sistemas sob medida e automações. Atendimento na Região Serrana - RJ.',
+    'A Atlas constrói a estrutura digital do seu negócio — sites que convertem, sistemas sob medida e automações. Atendimento para todo o Brasil.',
   url: 'https://atlastecnologias.com.br',
-  region: 'Teresópolis / Região Serrana - RJ',
+  region: 'Todo o Brasil',
   city: 'Teresópolis',
   state: 'RJ',
   country: 'BR',

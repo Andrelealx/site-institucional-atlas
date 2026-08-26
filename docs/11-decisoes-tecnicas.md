@@ -196,3 +196,62 @@ Diferenciação visual "de ponta" sem comprometer conversão nem legibilidade. C
 - Não inicia em: `prefers-reduced-motion`, tela ≤768px, `deviceMemory ≤2`, sem WebGL. Fallback = grid+glow CSS já existente.
 - DPR capado em 1.5; rAF pausa em aba oculta e quando o canvas sai da viewport.
 - Lighthouse mobile (tela pequena) cai no fallback → score preservado.
+
+---
+
+## Decisão 007 — Meta Pixel gated por consentimento (Fase 1 Tráfego Pago)
+
+### Decisão
+
+Injetar o Meta Pixel via `src/components/MetaPixel.astro` no `<head>`, com o base code
+`fbq` encapsulado em `initMetaPixel()` que só executa após o aceite de cookies. O ID vem
+de `META_DATASET_ID` (env, lido em `src/config/site.ts`), nunca hardcoded. Eventos disparam
+por uma API global (`window.atlasTrack`) e por delegação de clique em `[data-fb-event]`.
+
+### Motivo
+
+O Pixel grava cookies e envia dados à Meta (fora do Brasil) → sob a LGPD exige consentimento
+explícito ANTES do disparo. Env mantém o ID fora do código versionado e num só lugar. A API
+global desacopla os gatilhos (botões marcam `data-fb-event`) da mecânica do Pixel.
+
+### Impacto
+
+- Sem `META_DATASET_ID` preenchido, a fundação sobe mas o Pixel não carrega (fail-safe).
+- Nenhum evento é enviado antes do aceite; ao recusar, nada carrega e o site segue normal.
+- Nomes de evento fixos da Meta: `PageView`, `ViewContent`, `Lead`, `Contact`.
+
+### Arquivos afetados
+
+- `src/components/MetaPixel.astro`, `src/components/CookieConsent.astro`,
+  `src/config/site.ts`, `src/layouts/Layout.astro`, `.env` / `.env.example`,
+  `src/pages/expert-dentistas.astro`, `Header/Footer/WhatsAppFloat.astro`.
+
+---
+
+## Decisão 011 — Posicionamento nacional (remove SEO local Região Serrana)
+
+### Decisão
+
+Cliente pediu para remover toda menção de atendimento restrito à Região Serrana/RJ ou
+Guapimirim: a Atlas atende todo o Brasil. `SITE.region` em `src/config/site.ts` passou de
+`'Teresópolis / Região Serrana - RJ'` para `'Todo o Brasil'` (reaproveitado em
+`areaServed` do JSON-LD, no badge do menu mobile e no rodapé da landing `/expert-dentistas`
+via referência direta). Descrição, badge do Hero, bloco de atendimento do Contato e
+meta keywords também perderam a referência geográfica local. O endereço legal
+(`addressLocality`/`addressRegion` = Teresópolis/RJ) permaneceu no JSON-LD `PostalAddress`
+— é o endereço do CNPJ, não aparece em texto visível da página.
+
+### Motivo
+
+Pedido direto do cliente: a Atlas não quer mais se posicionar como agência regional.
+
+### Impacto
+
+- `docs/00-briefing-cliente.md`, `docs/01-dossie-comercial.md` e `docs/02-requisitos-do-site.md`
+  não foram reescritos — continuam como registro do briefing original recebido do cliente.
+  O posicionamento vivo do site é o que está no código + esta decisão.
+
+### Arquivos afetados
+
+- `src/config/site.ts`, `src/components/Hero.astro`, `src/components/Contact.astro`,
+  `src/layouts/Layout.astro`.

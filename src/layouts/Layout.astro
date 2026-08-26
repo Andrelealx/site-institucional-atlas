@@ -7,6 +7,8 @@ import '../styles/global.css';
 import { SITE } from '../config/site';
 import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 import MobileMenu from '../components/MobileMenu.astro';
+import MetaPixel from '../components/MetaPixel.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -62,7 +64,7 @@ const jsonLd = {
     <meta name="description" content={description} />
     <meta
       name="keywords"
-      content="agência digital, criação de sites, sistema sob medida, automação WhatsApp, Teresópolis, Região Serrana RJ"
+      content="agência digital, criação de sites, sistema sob medida, automação WhatsApp, atendimento remoto, todo o Brasil"
     />
     <link rel="canonical" href={canonical} />
 
@@ -87,6 +89,9 @@ const jsonLd = {
       type="application/ld+json"
       set:html={JSON.stringify(jsonLd)}
     />
+
+    <!-- Meta Pixel gated por consentimento (só sobe após aceite de cookies) -->
+    <MetaPixel />
   </head>
   <body>
     <!-- Acessibilidade: pular direto para o conteúdo -->
@@ -99,6 +104,7 @@ const jsonLd = {
     <BackgroundCanvas />
     <slot />
     <MobileMenu />
+    <CookieConsent />
 
     <script>
       // Micro-interações (contadores, botões magnéticos, scramble) — chunk lazy.

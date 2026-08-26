@@ -27,4 +27,5 @@ export const partners: Partner[] = [
   { name: 'Rio Faz', src: '/images/partners/rio-faz.webp' },
   { name: 'Gordon', src: '/images/partners/gordon.jpg' },
   { name: 'BVolt', src: '/images/partners/bvolt.jpg' },
+  { name: 'Rafa Guttierrez', src: '/images/partners/rafa-guttierrez.png' },
 ];
