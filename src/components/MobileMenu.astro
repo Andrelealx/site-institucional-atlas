@@ -1,17 +1,12 @@
 ---
 import Logo from './Logo.astro';
 import { waLink, SITE } from '../config/site';
+import { NAV_LINKS as links } from '../config/nav';
 
 // Só o PAINEL do menu. O botão hambúrguer fica no Header (data-menu-toggle).
 // Este painel é montado no nível do body (fora do header) — se ficasse dentro
 // do header, o backdrop-blur do header (ao rolar) viraria containing block do
 // `fixed` e o menu cobriria só a faixa do header. Ver Layout.astro.
-const links = [
-  { label: 'Serviços', href: '#servicos' },
-  { label: 'Portfólio', href: '#portfolio' },
-  { label: 'Planos', href: '#planos' },
-  { label: 'Contato', href: '#contato' },
-];
 ---
 
 <div

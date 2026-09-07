@@ -2,21 +2,52 @@
 import Icon from './Icon.astro';
 import ImageWithFallback from './ImageWithFallback.astro';
 import { projects } from '../data/projects';
+
+/**
+ * Mesma grade serve a home (amostra curada + link para a página) e a página
+ * /portfolio (lista completa, sem cabeçalho de seção — a página tem o seu).
+ */
+interface Props {
+  /** Quantidade máxima de cases. Ausente = todos. */
+  limit?: number;
+  /** Exibe o CTA "Ver todos os projetos" abaixo da grade. */
+  showAllLink?: boolean;
+  /** Cabeçalho da seção (eyebrow + h2 + texto). */
+  showHeader?: boolean;
+}
+
+const { limit, showAllLink = false, showHeader = true } = Astro.props;
+
+const visibleProjects = limit ? projects.slice(0, limit) : projects;
+const hiddenCount = projects.length - visibleProjects.length;
 ---
 
-<section id="portfolio" class="relative py-24">
+<!-- Sem cabeçalho (página /portfolio), o topo vem colado no hero da página. -->
+<section
+  id="portfolio"
+  class:list={['relative pb-24', showHeader ? 'pt-24' : 'pt-2']}
+>
   <div class="container-site">
-    <div class="max-w-2xl" data-reveal>
-      <span class="eyebrow">Portfólio</span>
-      <h2 class="section-title mt-3">Trabalhos que entregam resultado</h2>
-      <p class="mt-4 text-lg text-text-secondary">
-        Uma amostra do que construímos para negócios locais.
-      </p>
-    </div>
+    {
+      showHeader && (
+        <div class="max-w-2xl" data-reveal>
+          <span class="eyebrow">Portfólio</span>
+          <h2 class="section-title mt-3">Trabalhos que entregam resultado</h2>
+          <p class="mt-4 text-lg text-text-secondary">
+            Uma amostra do que já construímos para negócios de todo o Brasil.
+          </p>
+        </div>
+      )
+    }
 
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div
+      class:list={[
+        'grid gap-6 sm:grid-cols-2 lg:grid-cols-3',
+        showHeader ? 'mt-12' : '',
+      ]}
+    >
       {
-        projects.map((project, i) => {
+        visibleProjects.map((project, i) => {
           const Tag = project.url ? 'a' : 'div';
           return (
             <Tag
@@ -83,5 +114,21 @@ import { projects } from '../data/projects';
         })
       }
     </div>
+
+    {
+      showAllLink && (
+        <div class="mt-12 flex flex-col items-center gap-3" data-reveal>
+          <a href="/portfolio" class="btn-secondary">
+            Ver todos os projetos
+            <Icon name="arrow-up-right" size={16} />
+          </a>
+          {hiddenCount > 0 && (
+            <p class="text-sm text-text-secondary">
+              {`Mais ${hiddenCount} ${hiddenCount === 1 ? 'projeto' : 'projetos'} na página completa.`}
+            </p>
+          )}
+        </div>
+      )
+    }
   </div>
 </section>

@@ -58,6 +58,12 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - Portfólio com 9 cases. Último incluído: **Tecpro Services** (tecproservices.com.br),
   presente também no carrossel de parceiros.
 - Carrossel de parceiros com 14 logos.
+- Portfólio tem **página própria em `/portfolio`** (lista completa). A home mostra os 6
+  primeiros cases e um CTA para a página. Para adicionar um cliente novo basta uma entrada
+  em `src/data/projects.ts` — os dois lugares atualizam sozinhos.
+- Sem página de detalhe por case: os cards abrem o site do cliente. Se quiser vender os
+  cases com profundidade (problema → solução → resultado), é preciso levantar esse conteúdo
+  com cada cliente — hoje não existe nos docs.
 
 ## Próximo passo recomendado
 

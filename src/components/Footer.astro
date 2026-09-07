@@ -2,16 +2,10 @@
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { waLink, mailLink, instagramLink, EMAIL, SITE } from '../config/site';
+import { NAV_LINKS as navLinks } from '../config/nav';
 
 const instagram = instagramLink();
 const year = new Date().getFullYear();
-
-const navLinks = [
-  { label: 'Serviços', href: '#servicos' },
-  { label: 'Portfólio', href: '#portfolio' },
-  { label: 'Planos', href: '#planos' },
-  { label: 'Contato', href: '#contato' },
-];
 ---
 
 <footer class="border-t border-border-soft bg-bg-base py-14">

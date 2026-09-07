@@ -70,3 +70,5 @@
 ## Portfólio — atualizações contínuas
 
 - [x] Case Tecpro Services adicionado ao portfólio + logo no carrossel de parceiros — 2026-09-07
+- [x] Página dedicada `/portfolio` + home limitada a 6 cases com CTA — 2026-09-07
+- [x] Navegação centralizada em `src/config/nav.ts` (corrige âncoras em páginas internas) — 2026-09-07

@@ -255,3 +255,47 @@ Pedido direto do cliente: a Atlas não quer mais se posicionar como agência reg
 
 - `src/config/site.ts`, `src/components/Hero.astro`, `src/components/Contact.astro`,
   `src/layouts/Layout.astro`.
+
+---
+
+## Decisão 012 — Página dedicada /portfolio (home passa a mostrar amostra)
+
+### Decisão
+
+O portfólio ganhou página própria em `/portfolio`, com a lista completa de cases. A home
+mantém a seção `#portfolio`, mas limitada aos 6 primeiros projetos, com CTA
+"Ver todos os projetos" apontando para a página.
+
+`Portfolio.astro` virou componente parametrizado (`limit`, `showAllLink`, `showHeader`)
+para servir aos dois contextos sem duplicar a grade de cards.
+
+A navegação (Header, MobileMenu, Footer) passou a vir de um único módulo,
+`src/config/nav.ts`, com hrefs em caminho absoluto + âncora (`/#servicos` no lugar de
+`#servicos`). O item "Portfólio" agora aponta para `/portfolio`.
+
+### Motivo
+
+- A home crescia a cada cliente novo: com 9 cases, a seção empurrava planos, diferenciais
+  e contato para muito abaixo da dobra, além de carregar 9 prints numa página só.
+- `/portfolio` é URL indexável própria (entra no sitemap automaticamente) e link único
+  para enviar em proposta comercial, no lugar de `site.com/#portfolio`.
+- A nav estava triplicada em três componentes, com risco de divergirem; e as âncoras puras
+  (`#servicos`) não tinham destino a partir de páginas internas — bug que já existia em
+  `/politica-de-privacidade` e `/expert-dentistas` e que a nova página tornaria mais visível.
+
+### Impacto
+
+- O scroll-spy de `Layout.astro` passou a filtrar `[data-nav]` sem âncora: um link de
+  página tem `hash` vazio e `document.querySelector('')` lança `SyntaxError`, o que mataria
+  o script inteiro. O Header marca o link de página ativo no servidor (`aria-current`).
+- Sem página de detalhe por case (decisão consciente): os cards seguem abrindo o site do
+  cliente em nova aba. Detalhe por case exigiria conteúdo (problema → solução → resultado)
+  que hoje não existe nos docs — fica como evolução possível.
+- Texto da seção deixou de dizer "negócios locais" (contradizia a Decisão 011).
+
+### Arquivos afetados
+
+- `src/config/nav.ts` (novo), `src/pages/portfolio.astro` (novo)
+- `src/components/Portfolio.astro`, `src/components/Header.astro`,
+  `src/components/Footer.astro`, `src/components/MobileMenu.astro`,
+  `src/layouts/Layout.astro`, `src/pages/index.astro`

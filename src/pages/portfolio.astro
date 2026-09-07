@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Portfolio from '../components/Portfolio.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import Partners from '../components/Partners.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import Icon from '../components/Icon.astro';
+import { projects } from '../data/projects';
+
+// Página dedicada do portfólio: a home mostra só uma amostra (6 cases) e
+// aponta para cá. Ver docs/11-decisoes-tecnicas.md.
+const total = projects.length;
+
+// Categorias em ordem de recorrência — resumo honesto do que a Atlas entrega,
+// derivado dos cases reais (nada hardcoded que possa ficar desatualizado).
+const categories = [...new Set(projects.map((p) => p.category))];
+---
+
+<Layout
+  title="Portfólio — Atlas Tecnologias"
+  description={`Sites, sistemas sob medida e automações entregues pela Atlas Tecnologias. ${total} projetos no ar, de site institucional a plataforma com pagamento integrado.`}
+  path="/portfolio"
+>
+  <Header />
+  <main id="main-content" class="pt-16">
+    <section class="relative overflow-hidden pb-10 pt-20 sm:pt-24">
+      <div
+        class="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(circle_at_50%_0%,rgba(200,241,53,0.10),transparent_65%)]"
+      >
+      </div>
+
+      <div class="container-site relative">
+        <div class="max-w-3xl" data-reveal>
+          <span class="eyebrow">Portfólio</span>
+          <h1 class="section-title mt-3">Trabalhos que entregam resultado</h1>
+          <p class="mt-5 text-lg leading-relaxed text-text-secondary">
+            Cada projeto abaixo está no ar, atendendo um negócio real. Sites
+            institucionais, sistemas sob medida e automações — construídos do
+            zero, sem template pronto.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center gap-2.5">
+            <span
+              class="rounded-full border border-brand/30 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand"
+            >
+              {total} projetos no ar
+            </span>
+            {
+              categories.map((category) => (
+                <span class="rounded-full border border-border-soft px-3 py-1.5 text-xs text-text-secondary">
+                  {category}
+                </span>
+              ))
+            }
+          </div>
+
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="/#contato" class="btn-primary">
+              Quero um projeto assim
+              <Icon name="arrow-up-right" size={16} />
+            </a>
+            <a href="/#planos" class="btn-secondary">Ver planos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Portfolio showHeader={false} />
+
+    <Partners />
+    <FinalCTA />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

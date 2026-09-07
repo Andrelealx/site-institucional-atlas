@@ -622,3 +622,36 @@ painel do menu era filho do header → `inset-0` passava a valer a caixa do head
 
 - `src/data/projects.ts`, `src/data/partners.ts`
 - `public/images/portfolio-tecpro.jpg` (novo), `public/images/partners/tecpro-services.png` (novo)
+
+## 2026-09-07 — Página /portfolio e navegação centralizada
+
+### O que mudou
+
+- **Nova página `/portfolio`** (`src/pages/portfolio.astro`): hero próprio com `h1`,
+  contagem de projetos e categorias derivadas dos dados (nada hardcoded), grade completa,
+  faixa de parceiros e CTA final. Entra sozinha no `sitemap-index.xml`.
+- **Home**: `<Portfolio limit={6} showAllLink />` — mostra 6 cases e um botão
+  "Ver todos os projetos" com a contagem do que ficou de fora.
+- **`Portfolio.astro`** agora aceita `limit`, `showAllLink` e `showHeader`; a mesma grade
+  serve home e página. Texto da seção deixou de dizer "negócios locais".
+- **`src/config/nav.ts` (novo)**: fonte única dos links de navegação, usada por Header,
+  MobileMenu e Footer (antes o array estava duplicado nos três). Hrefs passaram de
+  `#servicos` para `/#servicos` — assim funcionam a partir de qualquer página interna.
+- **`Layout.astro`**: o scroll-spy passou a ignorar links sem âncora. Sem isso,
+  `document.querySelector('')` no link `/portfolio` lançaria `SyntaxError` e derrubaria
+  o destaque de nav em todas as páginas.
+- **`Header.astro`**: marca o link da página atual com `aria-current="page"` + cor lime.
+
+### Verificado
+
+- `npm run build` sem erros; 5 páginas geradas, `/portfolio/` no sitemap.
+- HTML gerado: 6 cards na home, 9 em `/portfolio`, CTA com href `/portfolio` presente.
+- Conferência visual em `/portfolio` (1280px): grade 3 colunas, nav com item ativo,
+  espaçamento entre hero e grade ajustado.
+
+### Arquivos modificados
+
+- Novos: `src/config/nav.ts`, `src/pages/portfolio.astro`
+- Alterados: `src/components/Portfolio.astro`, `src/components/Header.astro`,
+  `src/components/Footer.astro`, `src/components/MobileMenu.astro`,
+  `src/layouts/Layout.astro`, `src/pages/index.astro`

@@ -135,9 +135,11 @@ const jsonLd = {
       }
 
       // Nav ativo — destaca o link da seção visível.
+      // Só entram links de âncora: um link de página (ex.: /portfolio) tem
+      // `hash` vazio e `querySelector('')` lançaria SyntaxError, matando o script.
       const navLinks = Array.from(
         document.querySelectorAll<HTMLAnchorElement>('[data-nav]')
-      );
+      ).filter((link) => link.hash !== '');
       const sections = navLinks
         .map((link) => document.querySelector<HTMLElement>(link.hash))
         .filter((el): el is HTMLElement => el !== null);
