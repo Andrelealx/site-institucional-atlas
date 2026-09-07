@@ -4,6 +4,21 @@ import ImageWithFallback from './ImageWithFallback.astro';
 import { projects } from '../data/projects';
 
 /**
+ * Prints do portfólio vivem em `src/assets/portfolio/` para passarem pelo
+ * pipeline do Astro (WebP + srcset). `projects.ts` continua guardando o caminho
+ * público (`/images/portfolio-x.jpg`) — casamos os dois pelo nome do arquivo,
+ * então adicionar um case segue sendo só soltar o print e editar os dados.
+ * Sem arquivo correspondente, cai no `<img>` simples de /public.
+ */
+const assets = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/portfolio/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true }
+);
+const assetByFileName = new Map(
+  Object.entries(assets).map(([path, mod]) => [path.split('/').pop()!, mod.default])
+);
+
+/**
  * Mesma grade serve a home (amostra curada + link para a página) e a página
  * /portfolio (lista completa, sem cabeçalho de seção — a página tem o seu).
  */
@@ -50,6 +65,9 @@ const visibleProjects = limit ? projects.slice(0, limit) : projects;
       {
         visibleProjects.map((project, i) => {
           const Tag = project.url ? 'a' : 'div';
+          const image = project.image
+            ? (assetByFileName.get(project.image.split('/').pop()!) ?? project.image)
+            : undefined;
           return (
             <Tag
               {...(project.url
@@ -60,10 +78,10 @@ const visibleProjects = limit ? projects.slice(0, limit) : projects;
               data-reveal-delay={i % 3}
             >
               <div class="overflow-hidden">
-                {project.image ? (
+                {image ? (
                   <div class="transition-transform duration-500 group-hover:scale-105">
                     <ImageWithFallback
-                      src={project.image}
+                      src={image}
                       alt={project.title}
                       ratio="aspect-video"
                     />

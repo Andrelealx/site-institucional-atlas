@@ -72,3 +72,12 @@
 - [x] Case Tecpro Services adicionado ao portfólio + logo no carrossel de parceiros — 2026-09-07
 - [x] Página dedicada `/portfolio` + home limitada a 6 cases com CTA — 2026-09-07
 - [x] Navegação centralizada em `src/config/nav.ts` (corrige âncoras em páginas internas) — 2026-09-07
+- [x] Corrige "negócios locais" no title/OG, Hero e rodapé (contradizia posicionamento nacional) — 2026-09-07
+- [x] `data-fb-event` em todos os CTAs da home + `Lead` no envio do formulário — 2026-09-07
+- [x] Prints do portfólio no pipeline do Astro (WebP + srcset): 1.061 KB → 79 KB — 2026-09-07
+- [ ] Cache de 1 ano para `/_astro/` (exige olhar o `.htaccess` atual na Hostinger)
+- [ ] Coletar 3 depoimentos reais para ativar o `SocialProof`
+- [ ] Imagem social `og-atlas.png` definitiva
+- [ ] Seção de FAQ (+ schema `FAQPage`)
+- [ ] Páginas por serviço (`/criacao-de-sites`, `/sistemas-sob-medida`, `/automacao-whatsapp`)
+- [ ] Página 404 com header/menu (hoje é beco sem saída)

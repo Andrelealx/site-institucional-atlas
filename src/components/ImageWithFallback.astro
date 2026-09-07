@@ -1,17 +1,41 @@
 ---
 /**
  * Imagem com fallback visual.
- * Se o arquivo não carregar (placeholder ainda não enviado por André),
+ * Se o arquivo não carregar (placeholder ainda não enviado pelo cliente),
  * mostra um bloco com cor de superfície + nome do arquivo, sem quebrar o layout.
+ *
+ * `src` aceita duas formas:
+ * - `ImageMetadata` (import de `src/assets/**`) → passa pelo pipeline do Astro:
+ *   gera WebP em vários tamanhos + `srcset`, servindo ao card só o que ele precisa.
+ * - `string` (caminho em `/public`) → tag `<img>` simples, sem otimização.
+ *   Mantido para quem soltar um arquivo direto em `public/images/`.
  */
+import { Image } from 'astro:assets';
+
 interface Props {
-  src: string;
+  src: string | ImageMetadata;
   alt: string;
   class?: string;
   ratio?: string; // ex.: 'aspect-video', 'aspect-square'
+  /** Larguras geradas + dica de layout para o navegador escolher o arquivo. */
+  widths?: number[];
+  sizes?: string;
 }
-const { src, alt, class: className = '', ratio = 'aspect-video' } = Astro.props;
-const fileName = src.split('/').pop() ?? src;
+
+const {
+  src,
+  alt,
+  class: className = '',
+  ratio = 'aspect-video',
+  widths = [400, 800, 1200],
+  sizes = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw',
+} = Astro.props;
+
+const isOptimized = typeof src !== 'string';
+const fileName = typeof src === 'string' ? (src.split('/').pop() ?? src) : (src.src.split('/').pop() ?? alt);
+
+const imgClass =
+  'relative z-10 h-full w-full object-cover opacity-0 transition-opacity duration-500 [&.is-loaded]:opacity-100';
 ---
 
 <div
@@ -28,13 +52,30 @@ const fileName = src.split('/').pop() ?? src;
     <span class="text-xs text-text-secondary">{fileName}</span>
   </div>
 
-  <img
-    src={src}
-    alt={alt}
-    loading="lazy"
-    decoding="async"
-    class="relative z-10 h-full w-full object-cover opacity-0 transition-opacity duration-500 [&.is-loaded]:opacity-100"
-    onload="this.classList.add('is-loaded')"
-    onerror="this.style.display='none'"
-  />
+  {
+    isOptimized ? (
+      <Image
+        src={src as ImageMetadata}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        format="webp"
+        loading="lazy"
+        decoding="async"
+        class={imgClass}
+        onload="this.classList.add('is-loaded')"
+        onerror="this.style.display='none'"
+      />
+    ) : (
+      <img
+        src={src as string}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        class={imgClass}
+        onload="this.classList.add('is-loaded')"
+        onerror="this.style.display='none'"
+      />
+    )
+  }
 </div>

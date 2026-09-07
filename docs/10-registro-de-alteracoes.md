@@ -666,3 +666,48 @@ painel do menu era filho do header → `inset-0` passava a valer a caixa do head
 - Verificado: `npm run build` sem erros; grep no `dist/` gerado com zero ocorrências de
   contagem em ambas as páginas; conferência visual do hero de `/portfolio`.
 - Arquivos: `src/pages/portfolio.astro`, `src/components/Portfolio.astro`
+
+## 2026-09-07 — Posicionamento no title, eventos de conversão e otimização de imagens
+
+Itens 1, 2 e 4 da análise do site.
+
+### 1. Posicionamento (correção)
+
+`SITE.tagline` ainda dizia "para negócios locais" e alimentava o `<title>`, o Open Graph
+e o Twitter card — o site no ar exibia isso no Google, contradizendo a Decisão 011.
+Trocado por "Sites, sistemas e automações sob medida". O mesmo texto saiu do Hero
+(`de negócios locais` → `do seu negócio`), do rodapé e da descrição do `package.json`.
+Grep no `dist/` gerado: zero ocorrências.
+
+### 2. Eventos de conversão (lacuna de medição)
+
+Adicionado `data-fb-event` onde não havia: Hero, FinalCTA, cartão de WhatsApp do Contato,
+menu mobile (`Contact`) e CTAs dos planos em Pricing (`Lead`). O formulário de contato
+passou a disparar `Lead` no envio. HTML gerado da home: 7 `Contact` + 4 `Lead`.
+
+### 3. Imagens do portfólio
+
+Prints movidos de `public/images/` para `src/assets/portfolio/` e servidos por `<Image>`
+do Astro: WebP em 400/800/1200 com `srcset`. `ImageWithFallback` aceita string ou
+`ImageMetadata`; `Portfolio.astro` casa dados e assets pelo nome do arquivo.
+
+### Verificado
+
+- `npm run build` sem erros; 36 variantes WebP geradas.
+- Peso das 9 imagens da `/portfolio`: **1.061 KB → 79 KB** (400w) / **210 KB** (800w).
+- Conferência visual da `/portfolio` a 1280px: cards idênticos.
+- No navegador: 6 imagens com `srcset` de 3 entradas, todas carregando, zero recursos
+  com erro na página.
+
+### Pendência relacionada (não resolvida aqui)
+
+Os arquivos com hash em `/_astro/` são servidos com `Cache-Control: max-age=604800`
+(7 dias) quando poderiam ser 1 ano imutável. A correção seria um `public/.htaccess`, mas
+isso sobrescreve o arquivo que já existe na raiz do servidor — precisa olhar a config
+atual da Hostinger antes.
+
+### Arquivos modificados
+
+- Novo: `src/env.d.ts`; movidos: `public/images/portfolio-*.jpg` → `src/assets/portfolio/`
+- Alterados: `src/config/site.ts`, `src/components/{Hero,Footer,FinalCTA,Contact,MobileMenu,Pricing,Portfolio,ImageWithFallback}.astro`,
+  `src/components/ContactForm.tsx`, `package.json`

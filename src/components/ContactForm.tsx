@@ -45,6 +45,11 @@ export default function ContactForm() {
       `*Tipo de negócio:* ${data.tipo}\n` +
       `*Mensagem:* ${data.mensagem}`;
 
+    // Lead: o envio do formulário é a conversão mais qualificada do site
+    // (nome + contato + contexto). `atlasTrack` respeita o consentimento LGPD
+    // — enfileira antes do aceite, descarta na recusa (ver MetaPixel.astro).
+    window.atlasTrack?.('Lead');
+
     window.open(waLink(texto), '_blank', 'noopener,noreferrer');
     setStatus('success');
     form.reset();

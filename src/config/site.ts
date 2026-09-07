@@ -44,7 +44,7 @@ export const SITE = {
   legalName: 'Atlas Consultoria e Tecnologia da Informação',
   /** CNPJ oficial, formatado para exibição. */
   cnpj: '67.276.955/0001-47',
-  tagline: 'Sites, sistemas e automações para negócios locais',
+  tagline: 'Sites, sistemas e automações sob medida',
   description:
     'A Atlas constrói a estrutura digital do seu negócio — sites que convertem, sistemas sob medida e automações. Atendimento para todo o Brasil.',
   url: 'https://atlastecnologias.com.br',

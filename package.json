@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Site institucional da Atlas Tecnologias — sites, sistemas e automações para negócios locais.",
+  "description": "Site institucional da Atlas Tecnologias — sites, sistemas e automações sob medida, para todo o Brasil.",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

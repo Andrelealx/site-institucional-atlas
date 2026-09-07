@@ -299,3 +299,50 @@ A navegação (Header, MobileMenu, Footer) passou a vir de um único módulo,
 - `src/components/Portfolio.astro`, `src/components/Header.astro`,
   `src/components/Footer.astro`, `src/components/MobileMenu.astro`,
   `src/layouts/Layout.astro`, `src/pages/index.astro`
+
+---
+
+## Decisão 013 — Eventos de conversão em toda a home + prints no pipeline de imagens
+
+### Decisão
+
+**Eventos.** Todo CTA de WhatsApp do site passou a declarar `data-fb-event`, com o
+mapeamento: `Contact` para contato genérico (Header, Footer, botão flutuante, Hero,
+FinalCTA, cartão de WhatsApp do Contato, menu mobile) e `Lead` para intenção alta —
+os CTAs dos planos em Pricing (o visitante escolheu um plano) e o envio do formulário
+de contato, que dispara `window.atlasTrack('Lead')` em `ContactForm.tsx`.
+
+**Imagens.** Os prints do portfólio saíram de `public/images/` para
+`src/assets/portfolio/`, passando pelo pipeline do Astro (`<Image>`): WebP em 400/800/1200
+com `srcset` + `sizes`. `ImageWithFallback` aceita agora `string` (arquivo em /public,
+sem otimização) ou `ImageMetadata` (otimizado). `Portfolio.astro` casa `projects.ts` com
+os assets pelo nome do arquivo via `import.meta.glob`.
+
+### Motivo
+
+- Antes, só Header, Footer e botão flutuante disparavam evento. Hero, FinalCTA, Contato,
+  menu mobile, **todos os planos** e o **formulário** não disparavam nada: anúncio
+  apontando para a home não entregava sinal de conversão ao Meta, que então não otimiza.
+- Os 9 prints somavam 1.061 KB em JPEG, servidos em 1530px de largura para cards de ~400px.
+- Manter o caminho público em `projects.ts` (em vez de trocar por import) preserva o
+  contrato de dados documentado: adicionar case continua sendo soltar o print e editar
+  o array.
+
+### Impacto
+
+- Ganho medido na `/portfolio`: 1.061 KB → **79 KB** na variante de 400w (tela comum) e
+  **210 KB** em 800w (telas retina). Os arquivos originais versionam em `src/assets`.
+- `src/env.d.ts` (novo) declara `window.atlasTrack` para o TypeScript da ilha React.
+- O evento `Lead` no formulário respeita o consentimento: `atlasTrack` enfileira antes do
+  aceite e descarta na recusa (lógica já existente em `MetaPixel.astro`).
+- Continua valendo a pendência bloqueante: sem `META_DATASET_ID` nada é enviado ao Meta.
+  Esta decisão prepara o terreno; a medição só começa quando o ID entrar no `.env`.
+
+### Arquivos afetados
+
+- `src/config/site.ts`, `src/components/Hero.astro`, `src/components/Footer.astro`,
+  `src/components/FinalCTA.astro`, `src/components/Contact.astro`,
+  `src/components/MobileMenu.astro`, `src/components/Pricing.astro`,
+  `src/components/ContactForm.tsx`, `src/components/Portfolio.astro`,
+  `src/components/ImageWithFallback.astro`, `src/env.d.ts` (novo),
+  `src/assets/portfolio/*` (movidos de `public/images/`), `package.json`
