@@ -11,16 +11,16 @@ import { projects } from '../data/projects';
 
 // Página dedicada do portfólio: a home mostra só uma amostra (6 cases) e
 // aponta para cá. Ver docs/11-decisoes-tecnicas.md.
-const total = projects.length;
-
-// Categorias em ordem de recorrência — resumo honesto do que a Atlas entrega,
-// derivado dos cases reais (nada hardcoded que possa ficar desatualizado).
+//
+// Sem contagem de projetos em texto: número exato envelhece mal e não ajuda
+// a vender — a própria grade mostra o volume. Só as categorias, derivadas dos
+// cases reais (nada hardcoded que possa ficar desatualizado).
 const categories = [...new Set(projects.map((p) => p.category))];
 ---
 
 <Layout
   title="Portfólio — Atlas Tecnologias"
-  description={`Sites, sistemas sob medida e automações entregues pela Atlas Tecnologias. ${total} projetos no ar, de site institucional a plataforma com pagamento integrado.`}
+  description="Sites, sistemas sob medida e automações entregues pela Atlas Tecnologias: de site institucional a plataforma com inscrição, pagamento e painel administrativo."
   path="/portfolio"
 >
   <Header />
@@ -42,11 +42,6 @@ const categories = [...new Set(projects.map((p) => p.category))];
           </p>
 
           <div class="mt-8 flex flex-wrap items-center gap-2.5">
-            <span
-              class="rounded-full border border-brand/30 bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand"
-            >
-              {total} projetos no ar
-            </span>
             {
               categories.map((category) => (
                 <span class="rounded-full border border-border-soft px-3 py-1.5 text-xs text-text-secondary">

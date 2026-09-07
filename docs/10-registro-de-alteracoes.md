@@ -655,3 +655,14 @@ painel do menu era filho do header → `inset-0` passava a valer a caixa do head
 - Alterados: `src/components/Portfolio.astro`, `src/components/Header.astro`,
   `src/components/Footer.astro`, `src/components/MobileMenu.astro`,
   `src/layouts/Layout.astro`, `src/pages/index.astro`
+
+## 2026-09-07 — Remove contagem exata de projetos (pedido do cliente)
+
+- **`/portfolio`**: removido o chip "N projetos no ar" do hero; ficaram só as categorias.
+  A meta description da página também perdeu o número.
+- **Home**: removida a linha "Mais N projetos na página completa" abaixo do CTA — mesma
+  natureza de menção, tirada junto para o site não contar projetos em lugar nenhum.
+- Motivo: número exato envelhece mal e a própria grade já comunica o volume.
+- Verificado: `npm run build` sem erros; grep no `dist/` gerado com zero ocorrências de
+  contagem em ambas as páginas; conferência visual do hero de `/portfolio`.
+- Arquivos: `src/pages/portfolio.astro`, `src/components/Portfolio.astro`

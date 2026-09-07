@@ -18,8 +18,9 @@ interface Props {
 
 const { limit, showAllLink = false, showHeader = true } = Astro.props;
 
+// Sem contagem de projetos em texto: número exato envelhece mal e a própria
+// grade já mostra o volume.
 const visibleProjects = limit ? projects.slice(0, limit) : projects;
-const hiddenCount = projects.length - visibleProjects.length;
 ---
 
 <!-- Sem cabeçalho (página /portfolio), o topo vem colado no hero da página. -->
@@ -117,16 +118,11 @@ const hiddenCount = projects.length - visibleProjects.length;
 
     {
       showAllLink && (
-        <div class="mt-12 flex flex-col items-center gap-3" data-reveal>
+        <div class="mt-12 flex justify-center" data-reveal>
           <a href="/portfolio" class="btn-secondary">
             Ver todos os projetos
             <Icon name="arrow-up-right" size={16} />
           </a>
-          {hiddenCount > 0 && (
-            <p class="text-sm text-text-secondary">
-              {`Mais ${hiddenCount} ${hiddenCount === 1 ? 'projeto' : 'projetos'} na página completa.`}
-            </p>
-          )}
         </div>
       )
     }
