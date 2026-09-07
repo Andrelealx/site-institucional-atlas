@@ -595,3 +595,30 @@ painel do menu era filho do header → `inset-0` passava a valer a caixa do head
 
 - `src/config/site.ts`, `src/components/Hero.astro`, `src/components/Contact.astro`,
   `src/layouts/Layout.astro`
+
+## 2026-09-07 — Tecpro Services no portfólio e no carrossel de parceiros
+
+### O que mudou
+
+- **Portfólio**: novo case `tecpro-services` em `src/data/projects.ts`, inserido em 2ª
+  posição (site institucional bilíngue de manutenção industrial, naval e civil, com
+  vitrine de obras/clientes, canal de denúncias e captação de orçamento).
+  Link externo: `https://tecproservices.com.br`.
+- **Print do site**: `public/images/portfolio-tecpro.jpg` (1530x784, mesmo padrão dos
+  demais prints do portfólio). Captura feita em viewport alto e recortada no topo para
+  o banner de cookies do site do cliente não aparecer na imagem.
+- **Parceiros**: entrada `Tecpro Services` em `src/data/partners.ts`, com o logo
+  quadrado oficial em `public/images/partners/tecpro-services.png` (180x180, baixado de
+  `assets/img/icone-tecpro-180.png` do próprio site). Sem `url`, seguindo o padrão das
+  outras entradas do marquee.
+
+### Verificado
+
+- `npm run build` NÃO foi executado: a pasta `node_modules` não existe nesta cópia do
+  projeto (dependências não instaladas). As mudanças são apenas de dados (dois arrays
+  tipados) mais dois arquivos estáticos — nenhuma alteração de componente.
+
+### Arquivos modificados
+
+- `src/data/projects.ts`, `src/data/partners.ts`
+- `public/images/portfolio-tecpro.jpg` (novo), `public/images/partners/tecpro-services.png` (novo)

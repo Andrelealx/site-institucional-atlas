@@ -66,3 +66,7 @@
 - [ ] **BLOQUEANTE:** André fornecer `META_DATASET_ID` (sem ele o Pixel não sobe)
 - [ ] Validar no Test Events / Meta Pixel Helper (depende do ID)
 - [ ] Ativar Meta-enabled CAPI no Events Manager (ação do André, pós-validação)
+
+## Portfólio — atualizações contínuas
+
+- [x] Case Tecpro Services adicionado ao portfólio + logo no carrossel de parceiros — 2026-09-07

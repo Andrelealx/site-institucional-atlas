@@ -53,6 +53,12 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - Com `WHATSAPP_NUMBER` no placeholder "55XXXXXXXXXXX", os links wa.me apontam para `wa.me/55` (sem destino real) até o número ser preenchido — comportamento esperado.
 - Imagens ausentes não quebram o layout: `ImageWithFallback` mostra um placeholder com o nome do arquivo.
 
+## Portfólio (2026-09-07)
+
+- Portfólio com 9 cases. Último incluído: **Tecpro Services** (tecproservices.com.br),
+  presente também no carrossel de parceiros.
+- Carrossel de parceiros com 14 logos.
+
 ## Próximo passo recomendado
 
 Cliente envia os dados das pendências → ajustar `src/config/site.ts`,

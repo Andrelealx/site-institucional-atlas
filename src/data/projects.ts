@@ -37,6 +37,16 @@ export const projects: Project[] = [
     url: '',
   },
   {
+    id: 'tecpro-services',
+    title: 'Tecpro Services',
+    category: 'Site institucional',
+    description:
+      'Site institucional bilíngue para empresa de manutenção industrial, naval e civil, com vitrine de obras e clientes, canal de denúncias e captação de orçamento.',
+    image: '/images/portfolio-tecpro.jpg',
+    tags: ['Institucional', 'Bilíngue', 'B2B'],
+    url: 'https://tecproservices.com.br',
+  },
+  {
     id: 'suporte-unica',
     title: 'Suporte Única',
     category: 'Sistema sob medida',
