@@ -26,9 +26,9 @@ placeholders — nenhuma pendência trava a publicação técnica.
 
 ## Pendências com o cliente
 
-- [x] ~~WhatsApp oficial~~ → 5521988798777 em `src/config/site.ts`
+- [x] ~~WhatsApp oficial~~ → 5521992565057 em `src/config/site.ts`
 - [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
-- [ ] @ do Instagram (e outras redes) → `src/config/site.ts` (`INSTAGRAM`)
+- [x] ~~@ do Instagram~~ → @atlas.tecnologias em `src/config/site.ts` (rodapé + `sameAs` no JSON-LD)
 - [x] ~~Endpoint do formulário~~ → resolvido: form abre o WhatsApp com os dados (sem backend)
 - [x] ~~Projetos reais do portfólio~~ → 8 cases com prints reais: CT Quebrando Limites,
       Suporte Única, Top Chalés RJ, HJ Segurança, Judô Marins, Viajei Assim,
@@ -50,7 +50,6 @@ placeholders — nenhuma pendência trava a publicação técnica.
 
 ## Observações
 
-- Com `WHATSAPP_NUMBER` no placeholder "55XXXXXXXXXXX", os links wa.me apontam para `wa.me/55` (sem destino real) até o número ser preenchido — comportamento esperado.
 - Imagens ausentes não quebram o layout: `ImageWithFallback` mostra um placeholder com o nome do arquivo.
 
 ## Portfólio (2026-09-07)

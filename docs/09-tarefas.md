@@ -81,3 +81,4 @@
 - [ ] Seção de FAQ (+ schema `FAQPage`)
 - [ ] Páginas por serviço (`/criacao-de-sites`, `/sistemas-sob-medida`, `/automacao-whatsapp`)
 - [ ] Página 404 com header/menu (hoje é beco sem saída)
+- [x] Instagram oficial no rodapé e no `sameAs` do JSON-LD — 2026-09-08

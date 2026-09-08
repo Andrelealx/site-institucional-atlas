@@ -29,8 +29,8 @@ export const META_DATASET_ID = import.meta.env.META_DATASET_ID ?? '';
 /** E-mail oficial de contato. */
 export const EMAIL = 'contato@atlastecnologias.com.br';
 
-/** PENDÊNCIA: confirmar @ do Instagram. Vazio = não exibe link. */
-export const INSTAGRAM = ''; // ex.: 'atlastecnologias'
+/** @ do Instagram oficial, sem o arroba. Vazio = não exibe link. */
+export const INSTAGRAM = 'atlas.tecnologias';
 
 // O formulário de contato monta uma mensagem e abre o WhatsApp (sem backend).
 // Ver src/components/ContactForm.tsx.

@@ -711,3 +711,15 @@ atual da Hostinger antes.
 - Novo: `src/env.d.ts`; movidos: `public/images/portfolio-*.jpg` → `src/assets/portfolio/`
 - Alterados: `src/config/site.ts`, `src/components/{Hero,Footer,FinalCTA,Contact,MobileMenu,Pricing,Portfolio,ImageWithFallback}.astro`,
   `src/components/ContactForm.tsx`, `package.json`
+
+## 2026-09-08 — Instagram oficial preenchido
+
+- `INSTAGRAM` em `src/config/site.ts`: de `''` para `'atlas.tecnologias'` (informado pelo
+  cliente). O link no rodapé já existia condicionado à constante — passou a aparecer sozinho.
+- `Layout.astro`: perfis sociais entram no JSON-LD como `sameAs`, campo que o Google usa
+  para ligar o site às redes da empresa. Montado a partir do config e omitido quando vazio,
+  então continua funcionando se a constante for limpa.
+- Verificado: `npm run build` sem erros; link presente nas 5 páginas geradas (o rodapé é
+  global) e `"sameAs":["https://instagram.com/atlas.tecnologias"]` no schema. O perfil
+  responde 200.
+- Arquivos: `src/config/site.ts`, `src/layouts/Layout.astro`

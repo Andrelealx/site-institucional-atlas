@@ -4,7 +4,7 @@ import '@fontsource-variable/inter';
 import '@fontsource/space-grotesk/600.css';
 import '@fontsource/space-grotesk/700.css';
 import '../styles/global.css';
-import { SITE } from '../config/site';
+import { SITE, instagramLink } from '../config/site';
 import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import MetaPixel from '../components/MetaPixel.astro';
@@ -26,6 +26,10 @@ const {
 const canonical = new URL(path, SITE.url).href;
 const ogImage = new URL(SITE.ogImage, SITE.url).href;
 
+// Perfis oficiais da Atlas — `sameAs` é como o Google liga o site às redes
+// sociais da empresa. Só entra no schema o que estiver preenchido no config.
+const socialProfiles = [instagramLink()].filter(Boolean);
+
 // JSON-LD LocalBusiness — SEO local (docs/02-requisitos-do-site.md)
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -37,6 +41,7 @@ const jsonLd = {
   url: SITE.url,
   image: ogImage,
   areaServed: SITE.region,
+  ...(socialProfiles.length > 0 && { sameAs: socialProfiles }),
   address: {
     '@type': 'PostalAddress',
     addressLocality: SITE.city,
