@@ -1,22 +1,30 @@
 # Imagens públicas
 
-Coloque aqui as imagens finais. Enquanto não existirem, o site usa um fallback
-visual (não quebra o layout) — ver `src/components/ImageWithFallback.astro`.
+Arquivos servidos **como estão**, sem otimização — o Astro só copia o que está
+em `public/`. Por isso aqui ficam apenas imagens que precisam de caminho fixo.
 
-## Arquivos esperados (PENDÊNCIA — André enviará)
+## O que vive aqui
 
-Portfólio (referenciados em `src/data/projects.ts`):
+- `og-atlas.png` — imagem de compartilhamento (OpenGraph/Twitter), 1200×630px.
+  **PENDÊNCIA:** o arquivo atual é placeholder; falta a versão final.
+- `atlas-logo.svg` — lockup da marca usado no header e no rodapé.
+- `partners/` — logos do carrossel de parceiros. Quadrados ficam melhores
+  (são exibidos como avatar redondo). Ver `src/data/partners.ts`.
 
-- `portfolio-escola.jpg`
-- `portfolio-loja.jpg`
-- `portfolio-evento.jpg`
-- `portfolio-servico.jpg`
-- `portfolio-catalogo.jpg`
-- `portfolio-landing.jpg`
+## O que NÃO vive mais aqui: prints do portfólio
 
-Social / SEO:
+Desde 2026-09-07 os prints ficam em **`src/assets/portfolio/`**, para passarem
+pelo pipeline do Astro (WebP + `srcset`, ~90% menor). Ver Decisão 013 em
+`docs/11-decisoes-tecnicas.md`.
 
-- `og-atlas.png` — imagem de compartilhamento (OpenGraph), 1200×630px.
+Para adicionar um case novo:
 
-Formato recomendado: `.webp` ou `.jpg` otimizado. Ao trocar a extensão,
-atualize o caminho em `src/data/projects.ts` / `src/config/site.ts`.
+1. Salve o print em `src/assets/portfolio/` — use `portfolio-<cliente>.jpg`,
+   1530×784 é o padrão dos existentes.
+2. Adicione a entrada em `src/data/projects.ts` com
+   `image: '/images/portfolio-<cliente>.jpg'`. O caminho continua sendo o
+   público: `Portfolio.astro` casa dados e assets pelo **nome do arquivo**.
+
+Se o arquivo não existir em `src/assets/portfolio/`, o site cai no `<img>`
+simples buscando em `/public` — e, não achando lá também, mostra o placeholder
+visual de `src/components/ImageWithFallback.astro`, sem quebrar o layout.

@@ -723,3 +723,39 @@ atual da Hostinger antes.
   global) e `"sameAs":["https://instagram.com/atlas.tecnologias"]` no schema. O perfil
   responde 200.
 - Arquivos: `src/config/site.ts`, `src/layouts/Layout.astro`
+
+## 2026-09-08 — Varredura: tipos limpos e documentação que dava instrução errada
+
+Revisão geral em busca do que ainda estava quebrado ou desatualizado.
+
+### Corrigido
+
+- **`src/scripts/constellation.ts`**: `tsc --noEmit` acusava 7 erros `TS18047`
+  ('ctx' is possibly 'null'). O guard `if (!ctx) return` existe, mas `resize()` e
+  `frame()` são declarações içadas — o TypeScript não garante que rodem depois da
+  checagem. Resolvido reatribuindo para uma const já tipada como
+  `CanvasRenderingContext2D`. Zero mudança de comportamento; **o projeto passa a
+  ter 0 erro de tipo**, então erro novo agora aparece em vez de se perder no ruído.
+- **`public/images/README.md`**: listava 6 arquivos que nunca existiram
+  (`portfolio-escola.jpg` e afins, da época dos placeholders) e mandava colocar
+  print de portfólio em `public/images/` — o que hoje pularia a otimização.
+  Reescrito com o fluxo real (`src/assets/portfolio/`).
+- **`README.md`**: a tabela de pendências marcava `WHATSAPP_NUMBER`, `EMAIL` e
+  `INSTAGRAM` como PENDÊNCIA (os três já preenchidos) e listava `FORM_ENDPOINT`,
+  constante que não existe mais. Árvore de arquivos também não citava
+  `/portfolio`, `/expert-dentistas` nem a 404.
+- **`docs/12-status-do-projeto.md`**: dizia "single page" e "8 cases" (são 9 e
+  cinco páginas); o "próximo passo" ainda falava em fazer o primeiro deploy, sendo
+  que o site está no ar com deploy automático a partir da `main`.
+
+### Verificado
+
+- `npm run build` sem erros; `tsc --noEmit` com 0 erros.
+- Links internos das 5 páginas geradas: todos resolvem para arquivo existente.
+- Canvas de fundo (constelação) conferido no navegador após a mudança de tipo:
+  módulo inicializa e desenha normalmente.
+
+### Arquivos modificados
+
+- `src/scripts/constellation.ts`, `README.md`, `public/images/README.md`,
+  `docs/12-status-do-projeto.md`

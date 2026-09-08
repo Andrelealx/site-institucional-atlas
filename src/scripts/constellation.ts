@@ -98,8 +98,12 @@ function makeGlowSprite(size: number): HTMLCanvasElement {
 }
 
 export function initConstellation(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext('2d', { alpha: true });
-  if (!ctx) return;
+  const context = canvas.getContext('2d', { alpha: true });
+  if (!context) return;
+  // Reatribuído com o tipo já sem `null`: as funções abaixo (`resize`, `frame`)
+  // são declarações içadas, e o TypeScript não consegue garantir que rodem só
+  // depois da checagem acima — sem isto, cada uso de `ctx` vira erro TS18047.
+  const ctx: CanvasRenderingContext2D = context;
 
   const isMobile = window.innerWidth <= 768;
   COUNT = isMobile ? 380 : 900;

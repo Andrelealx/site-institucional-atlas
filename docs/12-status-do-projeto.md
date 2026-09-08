@@ -11,7 +11,8 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - Documentação `/docs` preenchida com os dados reais da Atlas
 - Identidade visual aplicada conforme o LOGO OFICIAL (accent lime #C8F135, marca "Atlas Tecnologias")
 - Stack implementada: Astro 5 + Tailwind + React (ilhas) + TypeScript
-- Single page completa: Header, Hero, Serviços, Casos de uso, Portfólio, Diferenciais, CTA final, Contato, Footer + botão flutuante WhatsApp
+- Home completa: Header, Hero, Parceiros, Serviços, Casos de uso, Números, Portfólio (amostra), Planos, Diferenciais, CTA final, Contato, Footer + botão flutuante WhatsApp
+- Páginas internas: `/portfolio`, `/expert-dentistas` (landing de tráfego pago), `/politica-de-privacidade`, 404
 - Formulário com validação, aviso LGPD e endpoint configurável
 - SEO: meta tags, OpenGraph/Twitter, JSON-LD (ProfessionalService), sitemap, robots.txt, favicon
 - Página de Política de Privacidade (baseline LGPD)
@@ -30,9 +31,9 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [x] ~~E-mail oficial~~ → contato@atlastecnologias.com.br em `src/config/site.ts`
 - [x] ~~@ do Instagram~~ → @atlas.tecnologias em `src/config/site.ts` (rodapé + `sameAs` no JSON-LD)
 - [x] ~~Endpoint do formulário~~ → resolvido: form abre o WhatsApp com os dados (sem backend)
-- [x] ~~Projetos reais do portfólio~~ → 8 cases com prints reais: CT Quebrando Limites,
-      Suporte Única, Top Chalés RJ, HJ Segurança, Judô Marins, Viajei Assim,
-      Grupo Golden Express, Rafa Guttierrez. Cliente vai enviar mais depois.
+- [x] ~~Projetos reais do portfólio~~ → 9 cases com prints reais: CT Quebrando Limites,
+      Tecpro Services, Suporte Única, Top Chalés RJ, HJ Segurança, Judô Marins,
+      Viajei Assim, Grupo Golden Express, Rafa Guttierrez. Cliente vai enviar mais depois.
 - [x] ~~Planos & preços~~ → seção `#planos` implementada (4 planos oficiais)
 - [ ] Imagem social `og-atlas.png` final → `public/images/` (há placeholder)
 - [x] ~~Logo~~ — RECEBIDO (Atlas Tecnologias, em /midias/logo)
@@ -66,6 +67,9 @@ placeholders — nenhuma pendência trava a publicação técnica.
 
 ## Próximo passo recomendado
 
-Cliente envia os dados das pendências → ajustar `src/config/site.ts`,
-`src/data/projects.ts` e `public/images/` → `npm run build` → deploy em host
-estático com HTTPS e domínio definido.
+Site já está no ar em https://atlastecnologias.com.br (deploy automático a partir
+da branch `main`). Pendências que ainda travam resultado, em ordem:
+
+1. `META_DATASET_ID` no `.env` — sem ele o Pixel não sobe e nenhum evento é medido.
+2. Depoimentos reais → `src/components/SocialProof.astro` (seção pronta, oculta enquanto vazia).
+3. Imagem social `og-atlas.png` definitiva.

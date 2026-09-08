@@ -28,16 +28,19 @@ npm run preview  # serve o /dist
 ```
 src/
   config/site.ts        # contatos, waLink(), dados SEO  ← EDITAR AQUI
-  data/projects.ts      # portfólio (placeholders)
+  data/projects.ts      # portfólio (cases reais)
   data/services.ts      # serviços, casos de uso, diferenciais
   layouts/Layout.astro  # SEO, OpenGraph, JSON-LD, fontes
   components/            # seções (.astro) + ilhas React (.tsx)
   pages/
-    index.astro                    # home single-page
+    index.astro                    # home
+    portfolio.astro                # portfólio completo
+    expert-dentistas.astro         # landing de tráfego pago
     politica-de-privacidade.astro  # baseline LGPD
+    404.astro
 public/
   favicon.svg           # símbolo chevron lime
-  images/               # imagens finais (fallback até chegarem)
+  images/               # OG, logo e logos de parceiros (ver README de lá)
 ```
 
 ## O que editar antes de publicar (PENDÊNCIAS)
@@ -46,13 +49,17 @@ Tudo centralizado em `src/config/site.ts`:
 
 | Constante        | O que é                              | Status     |
 |------------------|--------------------------------------|------------|
-| `WHATSAPP_NUMBER`| Número oficial (55+DDD+nº)           | PENDÊNCIA  |
-| `EMAIL`          | E-mail oficial                       | PENDÊNCIA  |
-| `INSTAGRAM`      | @ do Instagram (vazio = oculta)      | PENDÊNCIA  |
-| `FORM_ENDPOINT`  | Formspree/n8n (vazio = log console)  | PENDÊNCIA  |
+| `WHATSAPP_NUMBER`| Número oficial (55+DDD+nº)           | OK         |
+| `EMAIL`          | E-mail oficial                       | OK         |
+| `INSTAGRAM`      | @ do Instagram (vazio = oculta)      | OK         |
+| `META_DATASET_ID`| Meta Pixel, lido do `.env`           | PENDÊNCIA  |
 
-Imagens (em `public/images/`, ver README de lá) e projetos reais
-(`src/data/projects.ts`) também são PENDÊNCIAS. O site sobe com placeholders.
+Prints do portfólio ficam em `src/assets/portfolio/` (otimizados pelo Astro);
+OG, logo e logos de parceiros em `public/images/` — ver README de lá.
+
+Pendências que restam: `META_DATASET_ID` no `.env` (sem ele o Pixel não sobe),
+imagem social `og-atlas.png` definitiva e depoimentos reais. Ver
+`docs/12-status-do-projeto.md`.
 
 ## Deploy
 
