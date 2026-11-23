@@ -4,7 +4,7 @@ import '@fontsource-variable/inter';
 import '@fontsource/space-grotesk/600.css';
 import '@fontsource/space-grotesk/700.css';
 import '../styles/global.css';
-import { SITE, instagramLink } from '../config/site';
+import { SITE, EMAIL, PHONE_TEL, instagramLink } from '../config/site';
 import BackgroundCanvas from '../components/BackgroundCanvas.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import MetaPixel from '../components/MetaPixel.astro';
@@ -37,6 +37,8 @@ const jsonLd = {
   name: SITE.name,
   legalName: SITE.legalName,
   taxID: SITE.cnpj,
+  telephone: PHONE_TEL,
+  email: EMAIL,
   description: SITE.description,
   url: SITE.url,
   image: ogImage,
@@ -44,7 +46,9 @@ const jsonLd = {
   ...(socialProfiles.length > 0 && { sameAs: socialProfiles }),
   address: {
     '@type': 'PostalAddress',
+    streetAddress: `${SITE.street}, ${SITE.streetComplement}`,
     addressLocality: SITE.city,
+    postalCode: SITE.postalCode,
     addressRegion: SITE.state,
     addressCountry: SITE.country,
   },

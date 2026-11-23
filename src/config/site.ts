@@ -29,6 +29,12 @@ export const META_DATASET_ID = import.meta.env.META_DATASET_ID ?? '';
 /** E-mail oficial de contato. */
 export const EMAIL = 'contato@atlastecnologias.com.br';
 
+/** Telefone comercial exibido no site (mesmo número do WhatsApp). */
+export const PHONE_DISPLAY = '+55 (21) 99256-5057';
+
+/** Telefone em formato tel: (E.164 com +). */
+export const PHONE_TEL = '+5521992565057';
+
 /** @ do Instagram oficial, sem o arroba. Vazio = não exibe link. */
 export const INSTAGRAM = 'atlas.tecnologias';
 
@@ -41,7 +47,7 @@ export const SITE = {
   name: 'Atlas Tecnologias',
   shortName: 'Atlas',
   /** Razão social — usada em dados legais (rodapé) e JSON-LD. */
-  legalName: 'Atlas Consultoria e Tecnologia da Informação',
+  legalName: 'Atlas Consultoria e Tecnologia da Informação Ltda',
   /** CNPJ oficial, formatado para exibição. */
   cnpj: '67.276.955/0001-47',
   tagline: 'Sites, sistemas e automações sob medida',
@@ -49,8 +55,16 @@ export const SITE = {
     'A Atlas constrói a estrutura digital do seu negócio — sites que convertem, sistemas sob medida e automações. Atendimento para todo o Brasil.',
   url: 'https://atlastecnologias.com.br',
   region: 'Todo o Brasil',
-  city: 'Teresópolis',
+  /**
+   * Endereço oficial da sede, idêntico ao Comprovante de Inscrição do CNPJ.
+   * Precisa bater com Receita / D-U-N-S / Google Play / Apple Developer.
+   */
+  street: 'Rua José Carlos de Prado, 112',
+  streetComplement: 'Quadra 11, Lote 17, Parte',
+  district: 'Parada Modelo',
+  city: 'Guapimirim',
   state: 'RJ',
+  postalCode: '25943-560',
   country: 'BR',
   ogImage: '/images/og-atlas.png', // PENDÊNCIA: imagem social final
 } as const;

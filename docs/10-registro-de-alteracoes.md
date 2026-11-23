@@ -759,3 +759,26 @@ Revisão geral em busca do que ainda estava quebrado ou desatualizado.
 
 - `src/scripts/constellation.ts`, `README.md`, `public/images/README.md`,
   `docs/12-status-do-projeto.md`
+
+## 2026-11-23 — Dados legais completos para contas Google Play e Apple
+
+Google Play Console e Apple Developer (contas de organização) exigem site público ligado
+à empresa, com dados que batam com a Receita e com o D-U-N-S.
+
+### Alterado
+
+- **`src/config/site.ts`**: razão social com "Ltda"; endereço oficial da sede igual ao
+  Comprovante de Inscrição do CNPJ (Rua José Carlos de Prado, 112, Quadra 11, Lote 17,
+  Parte, Parada Modelo, Guapimirim/RJ, CEP 25943-560). A cidade estava "Teresópolis",
+  divergente do CNPJ. Novas constantes `PHONE_DISPLAY` / `PHONE_TEL` (+55 21 99256-5057).
+- **`src/components/Footer.astro`**: telefone visível (link `tel:`), endereço completo
+  e link para Termos de Uso.
+- **`src/layouts/Layout.astro`**: JSON-LD com `streetAddress`, `postalCode`,
+  `telephone` e `email`.
+- **`src/components/Icon.astro`**: ícone `phone` (lucide).
+- **Nova página `src/pages/termos-de-uso.astro`**: texto base (pendência de revisão).
+
+### Verificado
+
+- `npm run build` sem erros (6 páginas); `tsc --noEmit` com 0 erros.
+- Endereço presente no rodapé e no JSON-LD do HTML gerado.

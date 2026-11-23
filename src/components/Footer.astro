@@ -1,7 +1,15 @@
 ---
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
-import { waLink, mailLink, instagramLink, EMAIL, SITE } from '../config/site';
+import {
+  waLink,
+  mailLink,
+  instagramLink,
+  EMAIL,
+  PHONE_DISPLAY,
+  PHONE_TEL,
+  SITE,
+} from '../config/site';
 import { NAV_LINKS as navLinks } from '../config/nav';
 
 const instagram = instagramLink();
@@ -54,6 +62,15 @@ const year = new Date().getFullYear();
           </li>
           <li>
             <a
+              href={`tel:${PHONE_TEL}`}
+              class="inline-flex items-center gap-2 text-sm text-text-secondary transition hover:text-brand"
+            >
+              <Icon name="phone" size={16} />
+              {PHONE_DISPLAY}
+            </a>
+          </li>
+          <li>
+            <a
               href={mailLink()}
               class="inline-flex items-center gap-2 text-sm text-text-secondary transition hover:text-brand"
             >
@@ -90,13 +107,25 @@ const year = new Date().getFullYear();
         <p class="text-xs text-text-secondary">
           {SITE.legalName} · CNPJ {SITE.cnpj}
         </p>
+        <address class="text-center text-xs not-italic text-text-secondary sm:text-left">
+          {SITE.street}, {SITE.streetComplement} · {SITE.district} ·
+          {SITE.city}/{SITE.state} · CEP {SITE.postalCode}
+        </address>
       </div>
-      <a
-        href="/politica-de-privacidade"
-        class="text-xs text-text-secondary transition hover:text-brand"
-      >
-        Política de Privacidade
-      </a>
+      <div class="flex items-center gap-4">
+        <a
+          href="/politica-de-privacidade"
+          class="text-xs text-text-secondary transition hover:text-brand"
+        >
+          Política de Privacidade
+        </a>
+        <a
+          href="/termos-de-uso"
+          class="text-xs text-text-secondary transition hover:text-brand"
+        >
+          Termos de Uso
+        </a>
+      </div>
     </div>
   </div>
 </footer>

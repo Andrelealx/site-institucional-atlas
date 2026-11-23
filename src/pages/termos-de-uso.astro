@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { EMAIL, PHONE_DISPLAY, PHONE_TEL, SITE } from '../config/site';
+---
+
+<Layout
+  title="Termos de Uso — Atlas Tecnologias"
+  description="Condições de uso do site da Atlas Tecnologias."
+  path="/termos-de-uso"
+>
+  <Header />
+  <main id="main-content" class="pt-24">
+    <article class="container-site max-w-3xl py-16">
+      <h1 class="section-title">Termos de Uso</h1>
+      <p class="mt-3 text-sm text-text-secondary">
+        Última atualização: novembro de 2026.
+      </p>
+
+      <!--
+        PENDÊNCIA (docs/12): texto base dos termos de uso do site institucional.
+        Revisar com André (e, se possível, com o jurídico) — exigência de
+        site completo para as contas de desenvolvedor Google Play e Apple.
+      -->
+
+      <div class="mt-10 flex flex-col gap-8 text-text-secondary">
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Quem somos
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Este site é mantido por {SITE.legalName}, inscrita no CNPJ sob o nº
+            {SITE.cnpj}, com sede em {SITE.street}, {SITE.streetComplement},
+            {SITE.district}, {SITE.city}/{SITE.state}, CEP {SITE.postalCode}.
+            O nome comercial usado no site é {SITE.name}.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Uso do site
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            O site apresenta os serviços da Atlas e permite que você entre em
+            contato conosco. Ao usá-lo, você concorda em não tentar prejudicar
+            seu funcionamento, acessar áreas restritas ou usar o conteúdo para
+            fins ilícitos.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Serviços, planos e preços
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            As descrições de serviços, planos e valores publicadas aqui são
+            informativas. A contratação só acontece por proposta ou contrato
+            assinado entre as partes, que define escopo, prazos e condições.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Propriedade intelectual
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Marca, logotipo, textos e layout deste site pertencem à Atlas. Os
+            prints de projetos exibidos no portfólio pertencem aos respectivos
+            clientes e são mostrados com autorização. Não é permitido copiar
+            ou reutilizar esse conteúdo sem autorização prévia.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Links externos
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            O site tem links para serviços de terceiros, como WhatsApp e
+            Instagram. O uso desses serviços segue os termos e as políticas de
+            cada um deles.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Privacidade
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            O tratamento de dados pessoais está descrito na nossa
+            <a href="/politica-de-privacidade" class="text-brand hover:underline"
+              >Política de Privacidade</a
+            >.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Alterações e legislação
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Estes termos podem ser atualizados a qualquer momento; a data no
+            topo indica a versão em vigor. Eles são regidos pelas leis da
+            República Federativa do Brasil.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-text-primary">
+            Contato
+          </h2>
+          <p class="mt-2 leading-relaxed">
+            Dúvidas sobre estes termos:
+            <a href={`mailto:${EMAIL}`} class="text-brand hover:underline">{EMAIL}</a>
+            ou
+            <a href={`tel:${PHONE_TEL}`} class="text-brand hover:underline"
+              >{PHONE_DISPLAY}</a
+            >.
+          </p>
+        </section>
+      </div>
+
+      <a href="/" class="btn-secondary mt-12">← Voltar ao início</a>
+    </article>
+  </main>
+  <Footer />
+</Layout>

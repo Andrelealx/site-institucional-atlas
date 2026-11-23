@@ -37,9 +37,10 @@ placeholders — nenhuma pendência trava a publicação técnica.
 - [x] ~~Planos & preços~~ → seção `#planos` implementada (4 planos oficiais)
 - [ ] Imagem social `og-atlas.png` final → `public/images/` (há placeholder)
 - [x] ~~Logo~~ — RECEBIDO (Atlas Tecnologias, em /midias/logo)
-- [x] ~~CNPJ~~ — DEFINIDO. Exibido no rodapé + JSON-LD. CNPJ 67.276.955/0001-47, razão social "Atlas Consultoria e Tecnologia da Informação", marca "Atlas Tecnologias"
-- [ ] Decidir se exibe endereço/mapa
+- [x] ~~CNPJ~~ — DEFINIDO. Exibido no rodapé + JSON-LD. CNPJ 67.276.955/0001-47, razão social "Atlas Consultoria e Tecnologia da Informação Ltda", marca "Atlas Tecnologias"
+- [x] ~~Decidir se exibe endereço/mapa~~ → endereço oficial do CNPJ no rodapé + JSON-LD (sem mapa), exigência das contas Google Play/Apple (23/11/2026)
 - [ ] Texto definitivo da política de privacidade (há baseline LGPD no ar)
+- [ ] Revisar texto base dos Termos de Uso (`/termos-de-uso`, publicado em 23/11/2026)
 - [ ] Prazo de entrega
 - [ ] Analytics/Pixel (opcional) — Meta Pixel já IMPLEMENTADO; falta o `META_DATASET_ID`
 - [ ] **[BLOQUEANTE Fase 1] `META_DATASET_ID`**: André pega no Events Manager → Connect Data
