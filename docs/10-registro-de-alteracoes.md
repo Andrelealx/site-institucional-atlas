@@ -782,3 +782,10 @@ Google Play Console e Apple Developer (contas de organização) exigem site púb
 
 - `npm run build` sem erros (6 páginas); `tsc --noEmit` com 0 erros.
 - Endereço presente no rodapé e no JSON-LD do HTML gerado.
+
+## 2026-11-23 — Verificação do site no Google Search Console
+
+- **`public/google66107f6292d3d339.html`**: arquivo de verificação da propriedade
+  `https://atlastecnologias.com.br/` no Search Console (conta andreleal@atlastecnologias.com.br),
+  exigido pelo Google Play Console para a conta de organização da Atlas.
+  **Não remover** — se o arquivo sumir, a propriedade perde a verificação.
